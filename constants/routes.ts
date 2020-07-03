@@ -1,0 +1,8 @@
+const ROUTES = {
+  HOME: 'INICIO',
+  COURSES: 'CURSOS',
+  GALLERY: 'GALERIA',
+  ABOUT_US: 'QUIENES SOMOS'
+};
+
+export default ROUTES;
