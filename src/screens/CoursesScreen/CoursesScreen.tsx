@@ -2,43 +2,49 @@ import React, { useState, useEffect, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { Layout } from "@ui-kitten/components";
 
-import CoursePathCard from '../../components/CoursePathCard';
+import CoursePathCard from "../../components/CoursePathCard";
 import { ICategory } from "../../models/category";
 import CategoryService from "../../services/CategoryService";
 
-const CoursesScreen = () => {
-  const [allCategories, setAllCategories] = useState<ICategory[]>([]);
+interface ICoursesScreenProps {
+  categoryList: ICategory[];
+  isLoading: boolean;
+  error: any;
+  fetchAllAsync: () => void;
+}
 
+const CoursesScreen: React.FC<ICoursesScreenProps> = ({
+  categoryList,
+  isLoading,
+  error,
+  fetchAllAsync,
+}) => {
   useEffect(() => {
-    const fetchAllCategories = async () => {
-      const data = await CategoryService.getAll();
-      setAllCategories(data);
-    };
-    fetchAllCategories();
-  }, []);
+    fetchAllAsync();
+  }, [fetchAllAsync]);
 
   const coursePaths = useMemo(() => {
-    return allCategories
-      .filter(category => category.is_root)
+    return categoryList
+      .filter((category) => category.is_root)
       .sort((a: ICategory, b: ICategory) => a.title.localeCompare(b.title));
-  }, [allCategories]);
+  }, [categoryList]);
 
   return (
     <Layout style={styles.container}>
-      {coursePaths.map(category => (
+      {coursePaths.map((category) => (
         <CoursePathCard key={category.id} data={category} />
       ))}
     </Layout>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-    alignContent: 'center'
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-evenly",
+    alignContent: "center",
   },
 });
 
