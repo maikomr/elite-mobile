@@ -18,9 +18,9 @@ export default (state: IState = initialState, action: any) => {
     case ActionTypes.FETCH_ALL_START:
       return { ...state, isLoading: true };
     case ActionTypes.FETCH_ALL_SUCCESS:
-      return { ...state, categoryList: action.payload.categoryList, isLoading: false };
+      return { ...state, categoryList: action.payload.categoryList, isLoading: false, error: null };
     case ActionTypes.SET_ERROR:
-      return { ...state, error: action.payload.error };
+      return { ...state, error: action.payload.error, isLoading: false };
     default:
       return state;
   }

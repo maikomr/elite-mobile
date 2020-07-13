@@ -19,7 +19,7 @@ export const fetchAllSuccess = (categoryList: ICategory[]) => ({
 
 export const setError = (error: any) => ({
   type: ActionTypes.SET_ERROR,
-  error,
+  payload: { error },
 });
 
 export const fetchAllAsync = () => async (dispatch: Dispatch) => {
