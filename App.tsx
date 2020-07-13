@@ -5,13 +5,13 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 
-import DrawerContent from "./components/DrawerContent";
-import HomeNavigator from "./navigators/HomeNavigator";
-import CoursesNavigator from "./navigators/CoursesNavigator";
-import GalleryNavigator from "./navigators/GalleryNavigator";
-import AboutUsNavigator from "./navigators/AboutUsNavigator";
+import DrawerContent from "./src/components/DrawerContent";
+import HomeNavigator from "./src/navigators/HomeNavigator";
+import CoursesNavigator from "./src/navigators/CoursesNavigator";
+import GalleryNavigator from "./src/navigators/GalleryNavigator";
+import AboutUsNavigator from "./src/navigators/AboutUsNavigator";
 
-import ROUTES from "./constants/routes";
+import ROUTES from "./src/constants/routes";
 
 import { default as customTheme } from "./custom-theme.json";
 
