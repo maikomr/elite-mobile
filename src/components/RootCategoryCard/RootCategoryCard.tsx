@@ -14,21 +14,26 @@ const COLORS = [
   "#4361EE",
 ];
 
-interface ICoursePathCardProps {
+interface IRootCategoryCardProps {
   data: ICategory;
   colorIndex: number;
+  onPress: (id: number) => void;
 }
 
-const CoursePathCard: React.FC<ICoursePathCardProps> = ({
+const RootCategoryCard: React.FC<IRootCategoryCardProps> = ({
   data,
   colorIndex,
-}) => (
-  <Card style={[styles.container, { backgroundColor: COLORS[colorIndex] }]}>
-    <Text style={styles.text} category="h6">
-      {data.title}
-    </Text>
-  </Card>
-);
+  onPress
+}) => {
+  const handlePress = () => onPress(data.id);
+  return (
+    <Card style={[styles.container, { backgroundColor: COLORS[colorIndex] }]} onPress={handlePress}>
+      <Text style={styles.text} category="h6">
+        {data.title}
+      </Text>
+    </Card>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -43,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CoursePathCard;
+export default RootCategoryCard;

@@ -8,19 +8,22 @@ import {
   Button,
   Icon,
 } from "@ui-kitten/components";
+import { StackScreenProps } from "@react-navigation/stack";
 
-import CoursePathCard from "../../components/CoursePathCard";
-import { ICategory } from "../../models/category";
+import RootCategoryCard from "../../components/RootCategoryCard";
+import { ICategory, ICategoryMap } from "../../models/category";
+import ROUTES from "../../constants/routes";
 
-interface ICoursesScreenProps {
-  categoryList: ICategory[];
+interface ICoursesScreenProps extends StackScreenProps<any> {
+  categoryMap: ICategoryMap;
   isLoading: boolean;
   error: any;
   fetchAllAsync: () => void;
 }
 
 const CoursesScreen: React.FC<ICoursesScreenProps> = ({
-  categoryList,
+  navigation,
+  categoryMap,
   isLoading,
   error,
   fetchAllAsync,
@@ -29,11 +32,14 @@ const CoursesScreen: React.FC<ICoursesScreenProps> = ({
     fetchAllAsync();
   }, []);
 
-  const coursePaths = useMemo(() => {
-    return categoryList
+  const rootCategories = useMemo(() => {
+    return Object.values(categoryMap)
       .filter((category) => category.is_root)
       .sort((a: ICategory, b: ICategory) => a.title.localeCompare(b.title));
-  }, [categoryList]);
+  }, [categoryMap]);
+
+  const navigateToSubCategory = (id: number) =>
+    navigation.push(ROUTES.CATEGORY_LIST, { categoryId: id });
 
   if (isLoading) {
     return (
@@ -45,12 +51,19 @@ const CoursesScreen: React.FC<ICoursesScreenProps> = ({
 
   return (
     <Layout style={styles.container}>
-      {coursePaths.map((category, index) => (
-        <CoursePathCard key={category.id} data={category} colorIndex={index} />
+      {rootCategories.map((category, index) => (
+        <RootCategoryCard
+          key={`root-category-${category.id}`}
+          data={category}
+          colorIndex={index}
+          onPress={navigateToSubCategory}
+        />
       ))}
       {error && (
         <Card style={styles.errorCard} status="danger">
-          <Text style={styles.errorText} status="danger" category="h6">{error.message}</Text>
+          <Text style={styles.errorText} status="danger" category="h6">
+            {error.message}
+          </Text>
           <View style={styles.retryContainer}>
             <Button
               status="info"
@@ -90,13 +103,13 @@ const styles = StyleSheet.create({
     left: 0,
   },
   errorText: {
-    textAlign: 'center'
+    textAlign: "center",
   },
   retryContainer: {
     marginTop: 15,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default CoursesScreen;
