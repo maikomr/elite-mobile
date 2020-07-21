@@ -38,7 +38,7 @@ const CategoryListScreen: React.FC<ICategoryListScreenProps> = ({
   );
 
   return (
-    <Layout style={styles.container}>
+    <Layout style={styles.container} level="4">
       {data?.length && (
         <FlatList
           data={data}

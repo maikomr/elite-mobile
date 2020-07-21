@@ -50,12 +50,11 @@ const CoursesScreen: React.FC<ICoursesScreenProps> = ({
   }
 
   return (
-    <Layout style={styles.container}>
+    <Layout style={styles.container} level="4">
       {rootCategories.map((category, index) => (
         <RootCategoryCard
           key={`root-category-${category.id}`}
           data={category}
-          colorIndex={index}
           onPress={navigateToSubCategory}
         />
       ))}
