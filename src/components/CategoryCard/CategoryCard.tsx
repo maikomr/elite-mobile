@@ -2,10 +2,8 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Card, Text } from "@ui-kitten/components";
 
-import { ICategory } from "../../models/category";
-
 interface ICategoryCardProps {
-  data: ICategory;
+  data: { id: number, title: string };
   onPress: (id: number) => void;
 }
 

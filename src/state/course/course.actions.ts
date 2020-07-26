@@ -1,20 +1,20 @@
-import FacultyService from "../../services/FacultyService";
-import { Faculty } from "../../models/faculty";
+import CourseService from "../../services/CourseService";
+import { Course } from "../../models/course";
 import { Dispatch } from "redux";
 
 export const ActionTypes = {
-  FETCH_ALL_START: "[faculty] fetch all start",
-  FETCH_ALL_SUCCESS: "[faculty] fetch all success",
-  SET_ERROR: "[faculty] set error",
+  FETCH_ALL_START: "[course] fetch all start",
+  FETCH_ALL_SUCCESS: "[course] fetch all success",
+  SET_ERROR: "[course] set error",
 };
 
 export const fetchAllStart = () => ({
   type: ActionTypes.FETCH_ALL_START,
 });
 
-export const fetchAllSuccess = (facultyList: Faculty[]) => ({
+export const fetchAllSuccess = (courseList: Course[]) => ({
   type: ActionTypes.FETCH_ALL_SUCCESS,
-  payload: { facultyList },
+  payload: { courseList },
 });
 
 export const setError = (error: any) => ({
@@ -25,8 +25,8 @@ export const setError = (error: any) => ({
 export const fetchAllAsync = () => async (dispatch: Dispatch) => {
   dispatch(fetchAllStart());
   try {
-    const facultyList = await FacultyService.getAll();
-    dispatch(fetchAllSuccess(facultyList));
+    const courseList = await CourseService.getAll();
+    dispatch(fetchAllSuccess(courseList));
   } catch (error) {
     dispatch(setError(error));
   }

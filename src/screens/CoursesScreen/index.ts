@@ -1,1 +1,1 @@
-export { default } from './CoursesScreenContainer';
+export { default } from './CoursesScreen';

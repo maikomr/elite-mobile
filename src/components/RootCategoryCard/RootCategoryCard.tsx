@@ -1,26 +1,22 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Card, Text } from "@ui-kitten/components";
-import { ICategory } from "../../models/category";
 
 interface IRootCategoryCardProps {
-  data: ICategory;
-  onPress: (id: number) => void;
+  title: string;
+  onPress: () => void;
 }
 
 const RootCategoryCard: React.FC<IRootCategoryCardProps> = ({
-  data,
+  title,
   onPress
-}) => {
-  const handlePress = () => onPress(data.id);
-  return (
-    <Card style={styles.container} onPress={handlePress}>
-      <Text style={styles.text} category="h6">
-        {data.title}
-      </Text>
-    </Card>
-  );
-};
+}) => (
+  <Card style={styles.container} onPress={onPress}>
+    <Text style={styles.text} category="h6">
+      {title}
+    </Text>
+  </Card>
+);
 
 const styles = StyleSheet.create({
   container: {
