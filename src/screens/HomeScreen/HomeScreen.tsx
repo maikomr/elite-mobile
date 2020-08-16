@@ -10,10 +10,10 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 const HomeScreen: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
   <Layout style={styles.container}>
     <View style={styles.titleContainer}>
-      <Text style={styles.redText} category="h5">
+      <Text style={[styles.redText, styles.titleText]} category="h5" >
         INSTITUTO{' '}
       </Text>
-      <Text category="h5">ELITE</Text>
+      <Text category="h5" style={styles.titleText}>ELITE</Text>
     </View>
     <View style={styles.subtitleContainer}>
       <Text category="h6" style={styles.subtitle}>
@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
   },
+  titleText: {
+    fontWeight: 'bold'
+  },
   subtitleContainer: {
     padding: 20,
   },
@@ -124,6 +127,11 @@ const styles = StyleSheet.create({
   },
   exploreBtn: {
     marginTop: 20,
+    borderRadius: 15,
+    borderWidth: 0,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 10,
   },
 });
 

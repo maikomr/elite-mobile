@@ -23,6 +23,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 15,
+    borderRadius: 15,
+    borderWidth: 0,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   text: {
     textAlign: "center",

@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     marginVertical: 15,
+    borderRadius: 15,
+    borderWidth: 0,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 10,
   },
   text: {
     textAlign: "center",
