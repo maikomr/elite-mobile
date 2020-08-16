@@ -1,8 +1,7 @@
 export type Faculty = {
   id: number;
-  title: string;
+  name: string;
   description?: string;
-  careers?: number[];
 };
 
 export type FacultyMap = { [id: string]: Faculty };

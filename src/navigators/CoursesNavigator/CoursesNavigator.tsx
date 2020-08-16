@@ -11,9 +11,9 @@ import ROUTES from "../../constants/routes";
 const Stack = createStackNavigator();
 
 const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
-  <Stack.Navigator initialRouteName={ROUTES.COURSES}>
+  <Stack.Navigator initialRouteName={ROUTES.COURSES.ROOT}>
     <Stack.Screen
-      name={ROUTES.COURSES}
+      name={ROUTES.COURSES.ROOT}
       component={CoursesScreen}
       options={{
         headerLeft: (props) => (
@@ -23,7 +23,7 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
       }}
     />
     <Stack.Screen
-      name={ROUTES.PRE_UNIVERSITARIOS}
+      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.ROOT}
       component={FacultyListScreen}
       options={{
         headerTitleAlign: "center",

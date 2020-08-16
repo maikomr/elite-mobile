@@ -16,7 +16,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({
       onSelect={(index) => navigation.navigate(state.routeNames[index.row])}
     >
       <DrawerItem title={ROUTES.HOME} />
-      <DrawerItem title={ROUTES.COURSES} />
+      <DrawerItem title={ROUTES.COURSES.ROOT} />
       <DrawerItem title={ROUTES.GALLERY} />
       <DrawerItem title={ROUTES.ABOUT_US} />
     </Drawer>

@@ -1,46 +1,38 @@
-import React, { useMemo, useEffect } from "react";
-import { StyleSheet, FlatList, ListRenderItem, View } from "react-native";
-import {
-  Button,
-  Card,
-  Icon,
-  Layout,
-  Spinner,
-  Text,
-} from "@ui-kitten/components";
-import { StackScreenProps } from "@react-navigation/stack";
+import React, { useMemo, useEffect, useState } from 'react';
+import firebase from 'firebase';
+import { StyleSheet, FlatList, ListRenderItem } from 'react-native';
+import { Layout, Spinner } from '@ui-kitten/components';
+import { StackScreenProps } from '@react-navigation/stack';
 
-import { Faculty, FacultyMap } from "../../models/faculty";
-import CategoryCard from "../../components/CategoryCard";
-import ROUTES from "../../constants/routes";
+import { Faculty } from '../../models/faculty';
+import CategoryCard from '../../components/CategoryCard';
+import ROUTES from '../../constants/routes';
 
-interface IFacultyListScreenProps extends StackScreenProps<any> {
-  facultyMap: FacultyMap;
-  isLoading: boolean;
-  error: Error;
-  fetchAllAsync: () => void;
-}
+const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
+  const [faculties, setFaculties] = useState<Faculty[]>();
 
-const FacultyListScreen: React.FC<IFacultyListScreenProps> = ({
-  navigation,
-  facultyMap,
-  isLoading,
-  error,
-  fetchAllAsync,
-}) => {
   useEffect(() => {
-    fetchAllAsync();
-  }, [fetchAllAsync]);
+    const fetchFacultyList = async () => {
+      const snapshot = await firebase.firestore().collection('faculties').get();
+      setFaculties(snapshot.docs.map((doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        return data as Faculty;
+      }));
+    };
+    fetchFacultyList();
+  }, []);
 
-  const navigateToCareerList = (id: number) =>
-    navigation.push(ROUTES.CAREER_LIST, { facultyId: id });
+  const navigateToFacultyDetails = (id: number) =>
+    navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.FACULTY_DETAILS, {
+      facultyId: id,
+    });
 
-  const data = useMemo(() => Object.values(facultyMap), [facultyMap]);
   const renderItem: ListRenderItem<Faculty> = ({ item }) => (
-    <CategoryCard data={item} onPress={navigateToCareerList} />
+    <CategoryCard data={item} onPress={navigateToFacultyDetails} />
   );
 
-  if (isLoading) {
+  if (!faculties) {
     return (
       <Layout style={styles.loadingStateContainer}>
         <Spinner size="giant" />
@@ -50,32 +42,11 @@ const FacultyListScreen: React.FC<IFacultyListScreenProps> = ({
 
   return (
     <Layout style={styles.container} level="4">
-      {!!data?.length && (
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => `faculty-${item.id}`}
-        />
-      )}
-      {!!error && (
-        <Card style={styles.errorCard} status="danger">
-          <Text style={styles.errorText} status="danger" category="h6">
-            {error.message}
-          </Text>
-          <View style={styles.retryContainer}>
-            <Button
-              status="info"
-              appearance="outline"
-              accessoryLeft={(props) => (
-                <Icon {...props} name="refresh-outline" />
-              )}
-              onPress={fetchAllAsync}
-            >
-              Reintentar
-            </Button>
-          </View>
-        </Card>
-      )}
+      <FlatList
+        data={faculties}
+        renderItem={renderItem}
+        keyExtractor={(item) => `faculty-${item.id}`}
+      />
     </Layout>
   );
 };
@@ -87,23 +58,8 @@ const styles = StyleSheet.create({
   },
   loadingStateContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  errorCard: {
-    position: "absolute",
-    zIndex: 100,
-    width: "100%",
-    bottom: 0,
-    left: 0,
-  },
-  errorText: {
-    textAlign: "center",
-  },
-  retryContainer: {
-    marginTop: 15,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
