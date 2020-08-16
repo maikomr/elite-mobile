@@ -10,7 +10,7 @@ interface ICategoryCardProps {
 const CategoryCard: React.FC<ICategoryCardProps> = ({ name, onPress }) => {
   return (
     <Card style={styles.container} onPress={onPress}>
-      <Text style={styles.text} category="h6">
+      <Text style={styles.text} category="h6" status="primary">
         {name}
       </Text>
     </Card>

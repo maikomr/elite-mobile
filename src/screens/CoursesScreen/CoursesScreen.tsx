@@ -8,7 +8,7 @@ import ROUTES from "../../constants/routes";
 
 const CoursesScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   return (
-    <Layout style={styles.container} level="4">
+    <Layout style={styles.container} level="2">
       <RootCategoryCard
         title="Pre Universitarios"
         onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.ROOT)}

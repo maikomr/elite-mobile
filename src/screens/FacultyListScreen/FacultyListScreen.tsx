@@ -39,7 +39,7 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   }
 
   return (
-    <Layout style={styles.container} level="4">
+    <Layout style={styles.container} level="2">
       <FlatList
         data={faculties}
         renderItem={renderItem}
