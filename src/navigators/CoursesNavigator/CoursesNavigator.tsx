@@ -4,6 +4,7 @@ import { DrawerScreenProps } from "@react-navigation/drawer";
 
 import CoursesScreen from "../../screens/CoursesScreen";
 import FacultyListScreen from "../../screens/FacultyListScreen";
+import FacultyDetailsScreen from "../../screens/FacultyDetailsScreen";
 import MenuButton from "../../components/MenuButton";
 
 import ROUTES from "../../constants/routes";
@@ -28,6 +29,13 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
       options={{
         headerTitleAlign: "center",
         title: "Pre Universitarios",
+      }}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.FACULTY_DETAILS}
+      component={FacultyDetailsScreen}
+      options={{
+        headerTitleAlign: "center",
       }}
     />
   </Stack.Navigator>

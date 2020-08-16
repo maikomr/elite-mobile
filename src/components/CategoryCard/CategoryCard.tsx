@@ -3,16 +3,15 @@ import { StyleSheet } from "react-native";
 import { Card, Text } from "@ui-kitten/components";
 
 interface ICategoryCardProps {
-  data: { id: number, name: string };
-  onPress: (id: number) => void;
+  name: string;
+  onPress: () => void;
 }
 
-const CategoryCard: React.FC<ICategoryCardProps> = ({ data, onPress }) => {
-  const handlePress = () => onPress(data.id);
+const CategoryCard: React.FC<ICategoryCardProps> = ({ name, onPress }) => {
   return (
-    <Card style={styles.container} onPress={handlePress}>
+    <Card style={styles.container} onPress={onPress}>
       <Text style={styles.text} category="h6">
-        {data.name}
+        {name}
       </Text>
     </Card>
   );

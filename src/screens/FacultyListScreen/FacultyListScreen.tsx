@@ -1,35 +1,33 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from 'firebase';
 import { StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { Layout, Spinner } from '@ui-kitten/components';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { Faculty } from '../../models/faculty';
 import CategoryCard from '../../components/CategoryCard';
 import ROUTES from '../../constants/routes';
 
 const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-  const [faculties, setFaculties] = useState<Faculty[]>();
+  const [faculties, setFaculties] = useState();
 
   useEffect(() => {
     const fetchFacultyList = async () => {
       const snapshot = await firebase.firestore().collection('faculties').get();
-      setFaculties(snapshot.docs.map((doc) => {
-        const data = doc.data();
-        data.id = doc.id;
-        return data as Faculty;
-      }));
+      setFaculties(snapshot.docs.map(doc => doc.data()) as any);
     };
     fetchFacultyList();
   }, []);
 
-  const navigateToFacultyDetails = (id: number) =>
+  const navigateToFacultyDetails = (item: any) => () =>
     navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.FACULTY_DETAILS, {
-      facultyId: id,
+      faculty: item,
     });
 
-  const renderItem: ListRenderItem<Faculty> = ({ item }) => (
-    <CategoryCard data={item} onPress={navigateToFacultyDetails} />
+  const renderItem: ListRenderItem<any> = ({ item }) => (
+    <CategoryCard
+      name={item.name}
+      onPress={navigateToFacultyDetails(item)}
+    />
   );
 
   if (!faculties) {
