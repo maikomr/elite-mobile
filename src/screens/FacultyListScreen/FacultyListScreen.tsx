@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase';
+import '@firebase/firestore';
 import { StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { Layout, Spinner } from '@ui-kitten/components';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -13,8 +14,10 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
   useEffect(() => {
     const fetchFacultyList = async () => {
-      const snapshot = await firebase.app().firestore().collection('faculties').get();
-      const facultyList = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as Faculty));
+      const snapshot = await firebase.firestore().collection('faculties').get();
+      const facultyList = snapshot.docs.map(
+        (doc) => ({ ...doc.data(), id: doc.id } as Faculty)
+      );
       setFacultyList(facultyList);
     };
     fetchFacultyList();
