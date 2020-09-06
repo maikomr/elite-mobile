@@ -11,6 +11,7 @@ import {
 } from '@ui-kitten/components';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Faculty } from '../../models/faculty';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   navigation,
@@ -31,7 +32,6 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   useEffect(() => {
     navigation.setOptions({
       title: faculty.name,
-      headerStyle: styles.header,
     });
   }, [faculty.name]);
 
@@ -40,42 +40,32 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   //   `${key} - ${faculty.enrollmentOptions[key]} Bs.`;
 
   return (
-    <Layout style={styles.container}>
-      <Button
-        onPress={() => {}}
-        accessoryRight={(style) => (
-          <Icon {...style} name="checkmark-circle-outline" />
-        )}
-      >
-        Inscribirse
-      </Button>
-      <Text style={styles.subtitle} category="h6">
-        {`Modalidad${
-          faculty.admissionTypes.length > 1 ? 'es' : ''
-        } de Admisión`}
-      </Text>
-      <View>
-        {faculty.admissionTypes.map((admissionPeriod: string) => (
-          <View key={admissionPeriod}>
-            <Text>{admissionPeriod}</Text>
-          </View>
-        ))}
-      </View>
-      <Text style={styles.subtitle} category="h6">
-        {`Fecha${faculty.admissionPeriods.length > 1 ? 's' : ''} de Admisión`}
-      </Text>
-      <View>
-        {faculty.admissionPeriods.map((admissionPeriod: string) => (
-          <View key={admissionPeriod}>
-            <Text>{admissionPeriod}</Text>
-          </View>
-        ))}
-      </View>
-      <Text style={styles.subtitle} category="h6">
-        Descripción
-      </Text>
-      <Text>{faculty.description}</Text>
-      {/* <Text style={styles.subtitle} category="h6">
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <Layout style={styles.container}>
+        <Text>{faculty.description}</Text>
+        <Text style={styles.subtitle} category="h6">
+          {`Modalidad${
+            faculty.admissionTypes.length > 1 ? 'es' : ''
+          } de Admisión`}
+        </Text>
+        <View>
+          {faculty.admissionTypes.map((admissionPeriod: string) => (
+            <View key={admissionPeriod}>
+              <Text>{admissionPeriod}</Text>
+            </View>
+          ))}
+        </View>
+        <Text style={styles.subtitle} category="h6">
+          {`Fecha${faculty.admissionPeriods.length > 1 ? 's' : ''} de Admisión`}
+        </Text>
+        <View>
+          {faculty.admissionPeriods.map((admissionPeriod: string) => (
+            <View key={admissionPeriod}>
+              <Text>{admissionPeriod}</Text>
+            </View>
+          ))}
+        </View>
+        {/* <Text style={styles.subtitle} category="h6">
         Duración
       </Text>
       <Select
@@ -88,35 +78,41 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
           <SelectItem key={key} title={getEnrollmentOption(key)} />
         ))}
       </Select> */}
-      <Button
-        onPress={() => {}}
-        appearance="outline"
-        style={styles.secondaryButton}
-        accessoryRight={(style) => (
-          <Icon {...style} name="arrow-ios-forward-outline" />
-        )}
-      >
-        Ver carreras
-      </Button>
-      <Button
-        onPress={() => {}}
-        appearance="outline"
-        style={styles.secondaryButton}
-        accessoryRight={(style) => (
-          <Icon {...style} name="arrow-ios-forward-outline" />
-        )}
-      >
-        Ver materias
-      </Button>
-    </Layout>
+        <Button
+          onPress={() => {}}
+          appearance="outline"
+          style={styles.button}
+          accessoryRight={(style) => (
+            <Icon {...style} name="arrow-ios-forward-outline" />
+          )}
+        >
+          Ver carreras
+        </Button>
+        <Button
+          onPress={() => {}}
+          appearance="outline"
+          style={styles.button}
+          accessoryRight={(style) => (
+            <Icon {...style} name="arrow-ios-forward-outline" />
+          )}
+        >
+          Ver materias
+        </Button>
+        <Button
+          onPress={() => {}}
+          style={[styles.button, styles.enrollmentButton]}
+          accessoryRight={(style) => (
+            <Icon {...style} name="checkmark-circle-outline" />
+          )}
+        >
+          Inscribirse
+        </Button>
+      </Layout>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    elevation: 0,
-    shadowOpacity: 0,
-  },
   container: {
     flex: 1,
     padding: 20,
@@ -130,9 +126,14 @@ const styles = StyleSheet.create({
   //   marginTop: 5,
   //   marginVertical: 40,
   // },
-  secondaryButton: {
+  button: {
     marginTop: 30,
     justifyContent: 'space-between',
+  },
+  enrollmentButton: {
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 10,
   },
 });
 
