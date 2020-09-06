@@ -16,7 +16,9 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   navigation,
   route,
 }) => {
-  const faculty: Faculty = useMemo(() => route.params.faculty, [route.params.faculty]);
+  const faculty: Faculty = useMemo(() => route.params.faculty, [
+    route.params.faculty,
+  ]);
   // const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
   //   new IndexPath(0)
   // );
@@ -48,7 +50,9 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
         Inscribirse
       </Button>
       <Text style={styles.subtitle} category="h6">
-        {`Modalidad${faculty.admissionTypes.length > 1 ? 'es' : ''} de Admisión`}
+        {`Modalidad${
+          faculty.admissionTypes.length > 1 ? 'es' : ''
+        } de Admisión`}
       </Text>
       <View>
         {faculty.admissionTypes.map((admissionPeriod: string) => (
@@ -128,8 +132,8 @@ const styles = StyleSheet.create({
   // },
   secondaryButton: {
     marginTop: 30,
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 });
 
 export default FacultyDetailsScreen;
