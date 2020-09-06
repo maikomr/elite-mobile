@@ -1,18 +1,22 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { DrawerScreenProps } from "@react-navigation/drawer";
+import React from 'react';
+import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
-import CoursesScreen from "../../screens/CoursesScreen";
-import FacultyListScreen from "../../screens/FacultyListScreen";
-import FacultyDetailsScreen from "../../screens/FacultyDetailsScreen";
-import MenuButton from "../../components/MenuButton";
+import CoursesScreen from '../../screens/CoursesScreen';
+import FacultyListScreen from '../../screens/FacultyListScreen';
+import FacultyDetailsScreen from '../../screens/FacultyDetailsScreen';
+import MenuButton from '../../components/MenuButton';
 
-import ROUTES from "../../constants/routes";
+import ROUTES from '../../constants/routes';
+import CareerListScreen from '../../screens/CareerListScreen';
 
 const Stack = createStackNavigator();
 
 const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
-  <Stack.Navigator initialRouteName={ROUTES.COURSES.ROOT}>
+  <Stack.Navigator
+    initialRouteName={ROUTES.COURSES.ROOT}
+    screenOptions={{ headerTitleAlign: 'center' }}
+  >
     <Stack.Screen
       name={ROUTES.COURSES.ROOT}
       component={CoursesScreen}
@@ -20,23 +24,19 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
         headerLeft: (props) => (
           <MenuButton {...props} onPress={navigation.openDrawer} />
         ),
-        headerTitleAlign: "center",
       }}
     />
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITARIOS.ROOT}
       component={FacultyListScreen}
-      options={{
-        headerTitleAlign: "center",
-        title: "Pre Universitarios",
-      }}
     />
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITARIOS.FACULTY_DETAILS}
       component={FacultyDetailsScreen}
-      options={{
-        headerTitleAlign: "center",
-      }}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.CAREER_LIST}
+      component={CareerListScreen}
     />
   </Stack.Navigator>
 );

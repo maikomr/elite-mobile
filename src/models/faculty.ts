@@ -4,6 +4,7 @@ export type Faculty = {
   description: string;
   admissionTypes: string[];
   admissionPeriods: string[];
+  careers: string[];
 };
 
 export type FacultyMap = { [id: string]: Faculty };

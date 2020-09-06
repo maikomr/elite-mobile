@@ -12,6 +12,7 @@ import {
 import { StackScreenProps } from '@react-navigation/stack';
 import { Faculty } from '../../models/faculty';
 import { ScrollView } from 'react-native-gesture-handler';
+import ROUTES from '../../constants/routes';
 
 const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   navigation,
@@ -79,7 +80,11 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
         ))}
       </Select> */}
         <Button
-          onPress={() => {}}
+          onPress={() =>
+            navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.CAREER_LIST, {
+              careerList: faculty.careers || [],
+            })
+          }
           appearance="outline"
           style={styles.button}
           accessoryRight={(style) => (
