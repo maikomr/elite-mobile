@@ -13,7 +13,7 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   useEffect(() => {
     const fetchFacultyList = async () => {
       const snapshot = await firebase.firestore().collection('faculties').get();
-      setFaculties(snapshot.docs.map(doc => doc.data()) as any);
+      setFaculties(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as any);
     };
     fetchFacultyList();
   }, []);
