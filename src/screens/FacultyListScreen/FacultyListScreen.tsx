@@ -6,14 +6,16 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import CategoryCard from '../../components/CategoryCard';
 import ROUTES from '../../constants/routes';
+import { Faculty } from '../../models/faculty';
 
 const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-  const [faculties, setFaculties] = useState();
+  const [facultyList, setFacultyList] = useState<Faculty[]>();
 
   useEffect(() => {
     const fetchFacultyList = async () => {
       const snapshot = await firebase.firestore().collection('faculties').get();
-      setFaculties(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as any);
+      const facultyList = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as Faculty));
+      setFacultyList(facultyList);
     };
     fetchFacultyList();
   }, []);
@@ -23,14 +25,14 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       faculty: item,
     });
 
-  const renderItem: ListRenderItem<any> = ({ item }) => (
+  const renderFaculty: ListRenderItem<any> = ({ item: faculty }) => (
     <CategoryCard
-      name={item.name}
-      onPress={navigateToFacultyDetails(item)}
+      name={faculty.name}
+      onPress={navigateToFacultyDetails(faculty)}
     />
   );
 
-  if (!faculties) {
+  if (!facultyList) {
     return (
       <Layout style={styles.loadingStateContainer}>
         <Spinner size="giant" />
@@ -41,9 +43,9 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   return (
     <Layout style={styles.container} level="2">
       <FlatList
-        data={faculties}
-        renderItem={renderItem}
-        keyExtractor={(item) => `faculty-${item.id}`}
+        data={facultyList}
+        renderItem={renderFaculty}
+        keyExtractor={(faculty) => `faculty-${faculty.id}`}
       />
     </Layout>
   );
