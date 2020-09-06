@@ -6,6 +6,7 @@ const ROUTES = {
       ROOT: 'Pre Universitarios',
       FACULTY_DETAILS: 'FACULTY_DETAILS',
       CAREER_LIST: 'Carreras',
+      SUBJECT_LIST: 'Materias',
     },
     UNIVERSITARIOS: {
       ROOT: 'UNIVERSITARIOS',

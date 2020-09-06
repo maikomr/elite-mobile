@@ -9,6 +9,7 @@ import MenuButton from '../../components/MenuButton';
 
 import ROUTES from '../../constants/routes';
 import CareerListScreen from '../../screens/CareerListScreen';
+import SubjectListScreen from '../../screens/SubjectlistScreen';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,10 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITARIOS.CAREER_LIST}
       component={CareerListScreen}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.SUBJECT_LIST}
+      component={SubjectListScreen}
     />
   </Stack.Navigator>
 );

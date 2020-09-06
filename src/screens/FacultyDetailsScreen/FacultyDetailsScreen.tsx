@@ -94,7 +94,11 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
           Ver carreras
         </Button>
         <Button
-          onPress={() => {}}
+          onPress={() =>
+            navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.SUBJECT_LIST, {
+              subjects: faculty.subjects || [],
+            })
+          }
           appearance="outline"
           style={styles.button}
           accessoryRight={(style) => (
