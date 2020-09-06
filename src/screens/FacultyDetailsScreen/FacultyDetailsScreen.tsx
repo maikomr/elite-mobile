@@ -105,7 +105,7 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
             <Icon {...style} name="checkmark-circle-outline" />
           )}
         >
-          Inscribirse
+          Inscribirse a este curso
         </Button>
       </Layout>
     </ScrollView>
