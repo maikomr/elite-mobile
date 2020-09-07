@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Linking, Platform } from 'react-native';
 import {
   Layout,
   Text,
@@ -91,9 +91,25 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
     []
   );
 
-  const handleConfirm = () => {
-    console.log('"Confirmar" pressed');
-    // TODO: implement send whatsapp message
+  const handleConfirm = async () => {
+    const phoneWithCountryCode = '59160718014';
+    let mobile =
+      Platform.OS == 'ios' ? phoneWithCountryCode : '+' + phoneWithCountryCode;
+    const msg = `Hola, solicito inscribirme al curso pre-universitario "${
+      route.params.faculty.data().name
+    }", que comienza el ${
+      startDateOptions[selectedCourseIndex.row]
+    } en el turno de ${
+      shiftOptions[selectedShiftIndex.row]
+    } con duración de ${getMonthStr(
+      durationOptions[selectedDurationIndex.row]
+    )}.`;
+    let url = `whatsapp://send?text=${msg}&phone=${mobile}`;
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (!availableCourses) {
