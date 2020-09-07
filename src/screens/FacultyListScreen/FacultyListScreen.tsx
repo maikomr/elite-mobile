@@ -7,18 +7,14 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import CategoryCard from '../../components/CategoryCard';
 import ROUTES from '../../constants/routes';
-import { Faculty } from '../../models/faculty';
 
 const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-  const [facultyList, setFacultyList] = useState<Faculty[]>();
+  const [facultyList, setFacultyList] = useState<firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]>();
 
   useEffect(() => {
     const fetchFacultyList = async () => {
       const snapshot = await firebase.firestore().collection('faculties').get();
-      const facultyList = snapshot.docs.map(
-        (doc) => ({ ...doc.data(), id: doc.id } as Faculty)
-      );
-      setFacultyList(facultyList);
+      setFacultyList(snapshot.docs);
     };
     fetchFacultyList();
   }, []);
@@ -28,12 +24,15 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       faculty: item,
     });
 
-  const renderFaculty: ListRenderItem<any> = ({ item: faculty }) => (
-    <CategoryCard
-      name={faculty.name}
-      onPress={navigateToFacultyDetails(faculty)}
-    />
-  );
+  const renderFaculty: ListRenderItem<any> = ({ item: faculty }) => {
+    const data = faculty.data();
+    return (
+      <CategoryCard
+        name={data.name}
+        onPress={navigateToFacultyDetails(faculty)}
+      />
+    );
+  };
 
   if (!facultyList) {
     return (
@@ -48,7 +47,7 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       <FlatList
         data={facultyList}
         renderItem={renderFaculty}
-        keyExtractor={(faculty) => `faculty-${faculty.id}`}
+        keyExtractor={(faculty) => `faculty-${faculty.data().id}`}
       />
     </Layout>
   );

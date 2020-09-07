@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import {
   Layout,
   // IndexPath,
@@ -11,14 +11,14 @@ import {
 } from '@ui-kitten/components';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Faculty } from '../../models/faculty';
-import { ScrollView } from 'react-native-gesture-handler';
+
 import ROUTES from '../../constants/routes';
 
 const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   navigation,
   route,
 }) => {
-  const faculty: Faculty = useMemo(() => route.params.faculty, [
+  const faculty: Faculty = useMemo(() => route.params.faculty.data(), [
     route.params.faculty,
   ]);
   // const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
@@ -31,9 +31,11 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   // );
 
   useEffect(() => {
-    navigation.setOptions({
-      title: faculty.name,
-    });
+    if (faculty.name) {
+      navigation.setOptions({
+        title: faculty.name,
+      });
+    }
   }, [faculty.name]);
 
   // const value = enrollmentOptions[(selectedIndex as IndexPath).row];
@@ -108,7 +110,9 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
           Ver materias
         </Button>
         <Button
-          onPress={() => {}}
+          onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.ENROLLMENT_OPTIONS, {
+            faculty: route.params.faculty,
+          })}
           style={[styles.button, styles.enrollmentButton]}
           accessoryRight={(style) => (
             <Icon {...style} name="checkmark-circle-outline" />

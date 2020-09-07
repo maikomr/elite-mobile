@@ -1,15 +1,16 @@
 import React from 'react';
-import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
 import CoursesScreen from '../../screens/CoursesScreen';
 import FacultyListScreen from '../../screens/FacultyListScreen';
 import FacultyDetailsScreen from '../../screens/FacultyDetailsScreen';
+import CareerListScreen from '../../screens/CareerListScreen';
+import SubjectListScreen from '../../screens/SubjectlistScreen';
+import EnrollmentOptionsScreen from '../../screens/EnrollmentOptionsScreen';
 import MenuButton from '../../components/MenuButton';
 
 import ROUTES from '../../constants/routes';
-import CareerListScreen from '../../screens/CareerListScreen';
-import SubjectListScreen from '../../screens/SubjectlistScreen';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,10 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITARIOS.SUBJECT_LIST}
       component={SubjectListScreen}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.ENROLLMENT_OPTIONS}
+      component={EnrollmentOptionsScreen}
     />
   </Stack.Navigator>
 );
