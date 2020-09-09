@@ -2,7 +2,7 @@ const ROUTES = {
   HOME: 'INICIO',
   COURSES: {
     ROOT: 'CURSOS',
-    PRE_UNIVERSITARIOS: {
+    PRE_UNIVERSITY: {
       ROOT: 'Pre Universitarios',
       FACULTY_DETAILS: 'FACULTY_DETAILS',
       CAREER_LIST: 'Carreras',
@@ -12,8 +12,10 @@ const ROUTES = {
     UNIVERSITARIOS: {
       ROOT: 'UNIVERSITARIOS',
     },
-    APOYO_ESCOLAR: {
-      ROOT: 'APOYO_ESCOLAR',
+    SCHOOL_SUPPORT: {
+      ROOT: 'Apoyo Escolar',
+      ACADEMIC_LEVELING: 'Nivelación Académica',
+      ACADEMIC_LEVELING_DETAILS: 'ACADEMIC_LEVELING_DETAILS'
     },
     DESARROLLO_DE_INTELIGENCIA: {
       ROOT: 'DESARROLLO_DE_INTELIGENCIA',

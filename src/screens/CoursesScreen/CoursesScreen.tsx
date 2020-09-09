@@ -11,11 +11,11 @@ const CoursesScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
     <Layout style={styles.container} level="2">
       <RootCategoryCard
         title="Pre Universitarios"
-        onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.ROOT)}
+        onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.ROOT)}
       />
-      <RootCategoryCard title="Universitarios" onPress={() => {}} />
-      <RootCategoryCard title="Apoyo Escolar" onPress={() => {}} />
-      <RootCategoryCard title="Desarrollo de Inteligencia" onPress={() => {}} />
+      <RootCategoryCard title="Universitarios" onPress={() => { }} />
+      <RootCategoryCard title="Apoyo Escolar" onPress={() => navigation.push(ROUTES.COURSES.SCHOOL_SUPPORT.ROOT)} />
+      <RootCategoryCard title="Ajedrez" onPress={() => { }} />
     </Layout>
   );
 };

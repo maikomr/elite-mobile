@@ -7,8 +7,11 @@ import FacultyListScreen from '../../screens/FacultyListScreen';
 import FacultyDetailsScreen from '../../screens/FacultyDetailsScreen';
 import CareerListScreen from '../../screens/CareerListScreen';
 import SubjectListScreen from '../../screens/SubjectlistScreen';
+import SchoolSupportScreen from '../../screens/SchoolSupportScreen';
 import EnrollmentOptionsScreen from '../../screens/EnrollmentOptionsScreen';
 import MenuButton from '../../components/MenuButton';
+import AcademicLevelingScreen from '../../screens/AcademicLeveling';
+import AcademicLevelingDetailsScreen from '../../screens/AcademicLevelingDetailsScreen';
 
 import ROUTES from '../../constants/routes';
 
@@ -29,24 +32,36 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
       }}
     />
     <Stack.Screen
-      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.ROOT}
+      name={ROUTES.COURSES.PRE_UNIVERSITY.ROOT}
       component={FacultyListScreen}
     />
     <Stack.Screen
-      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.FACULTY_DETAILS}
+      name={ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS}
       component={FacultyDetailsScreen}
     />
     <Stack.Screen
-      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.CAREER_LIST}
+      name={ROUTES.COURSES.PRE_UNIVERSITY.CAREER_LIST}
       component={CareerListScreen}
     />
     <Stack.Screen
-      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.SUBJECT_LIST}
+      name={ROUTES.COURSES.PRE_UNIVERSITY.SUBJECT_LIST}
       component={SubjectListScreen}
     />
     <Stack.Screen
-      name={ROUTES.COURSES.PRE_UNIVERSITARIOS.ENROLLMENT_OPTIONS}
+      name={ROUTES.COURSES.PRE_UNIVERSITY.ENROLLMENT_OPTIONS}
       component={EnrollmentOptionsScreen}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.SCHOOL_SUPPORT.ROOT}
+      component={SchoolSupportScreen}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING}
+      component={AcademicLevelingScreen}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING_DETAILS}
+      component={AcademicLevelingDetailsScreen}
     />
   </Stack.Navigator>
 );

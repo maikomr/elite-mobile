@@ -20,7 +20,7 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   }, []);
 
   const navigateToFacultyDetails = (item: any) => () =>
-    navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.FACULTY_DETAILS, {
+    navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS, {
       faculty: item,
     });
 

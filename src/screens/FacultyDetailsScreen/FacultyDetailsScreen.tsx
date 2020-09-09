@@ -2,10 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import {
   Layout,
-  // IndexPath,
   Text,
-  // Select,
-  // SelectItem,
   Button,
   Icon,
 } from '@ui-kitten/components';
@@ -21,14 +18,6 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   const faculty: Faculty = useMemo(() => route.params.faculty.data(), [
     route.params.faculty,
   ]);
-  // const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
-  //   new IndexPath(0)
-  // );
-  // const enrollmentOptions = useMemo(
-  //   () =>
-  //     Object.keys(faculty.enrollmentOptions).sort((a, b) => a.localeCompare(b)),
-  //   [faculty.enrollmentOptions]
-  // );
 
   useEffect(() => {
     if (faculty.name) {
@@ -37,10 +26,6 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
       });
     }
   }, [faculty.name]);
-
-  // const value = enrollmentOptions[(selectedIndex as IndexPath).row];
-  // const getEnrollmentOption = (key: string) =>
-  //   `${key} - ${faculty.enrollmentOptions[key]} Bs.`;
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -68,22 +53,9 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
             </View>
           ))}
         </View>
-        {/* <Text style={styles.subtitle} category="h6">
-        Duración
-      </Text>
-      <Select
-        style={styles.selectDuration}
-        selectedIndex={selectedIndex}
-        value={getEnrollmentOption(value)}
-        onSelect={setSelectedIndex}
-      >
-        {enrollmentOptions.map((key) => (
-          <SelectItem key={key} title={getEnrollmentOption(key)} />
-        ))}
-      </Select> */}
         <Button
           onPress={() =>
-            navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.CAREER_LIST, {
+            navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.CAREER_LIST, {
               careerList: faculty.careers || [],
             })
           }
@@ -97,7 +69,7 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
         </Button>
         <Button
           onPress={() =>
-            navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.SUBJECT_LIST, {
+            navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.SUBJECT_LIST, {
               subjects: faculty.subjects || [],
             })
           }
@@ -110,7 +82,7 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
           Ver materias
         </Button>
         <Button
-          onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITARIOS.ENROLLMENT_OPTIONS, {
+          onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.ENROLLMENT_OPTIONS, {
             faculty: route.params.faculty,
           })}
           style={[styles.button, styles.enrollmentButton]}
@@ -135,10 +107,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
   },
-  // selectDuration: {
-  //   marginTop: 5,
-  //   marginVertical: 40,
-  // },
   button: {
     marginTop: 30,
     justifyContent: 'space-between',
