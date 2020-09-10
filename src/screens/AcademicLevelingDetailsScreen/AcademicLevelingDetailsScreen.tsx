@@ -1,11 +1,13 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View, Platform, Linking } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Layout, Text, Icon, Button } from '@ui-kitten/components';
+import ImageView from "react-native-image-viewing";
 import stringifyDate from '../../utils/stringifyDate';
 import Collapsible from '../../components/Collapsible';
 
 const AcademicLevelingDetailsScreen: React.FC<StackScreenProps<any>> = ({ navigation, route }) => {
+  const [isScheduleImageOpen, setIsScheduleImageOpen] = useState(false);
   const data = useMemo(() => route.params.data, [route.params.data]);
 
   useEffect(() => navigation.setOptions({ title: route.params.data.title }), [route.params.data]);
@@ -38,7 +40,7 @@ const AcademicLevelingDetailsScreen: React.FC<StackScreenProps<any>> = ({ naviga
         <Text style={styles.field}><Text style={styles.label}>Inicio de clases:</Text> {stringifyDate(data.startDate.toDate())}</Text>
         <View style={styles.field}>
           <Collapsible title="Materias">
-            <View style={styles.subjectListBody}>
+            <View style={styles.collapsibleBody}>
               {data.subjects.map((subject: any) => (
                 <View style={styles.subjectRow} key={subject.name}>
                   <Icon style={styles.icon} name={subject.icon} fill="#000000" />
@@ -49,8 +51,24 @@ const AcademicLevelingDetailsScreen: React.FC<StackScreenProps<any>> = ({ naviga
           </Collapsible>
         </View>
         <Button
+          style={styles.button}
+          onPress={() => setIsScheduleImageOpen(true)}
+          appearance="outline"
+          accessoryRight={(style) => (
+            <Icon {...style} name="eye-outline" />
+          )}
+        >
+          Ver horario
+        </Button>
+        <ImageView
+          images={[{ uri: data.scheduleImage }]}
+          imageIndex={0}
+          visible={isScheduleImageOpen}
+          onRequestClose={() => setIsScheduleImageOpen(false)}
+        />
+        <Button
+          style={[styles.button, styles.enrollmentButton]}
           onPress={handleConfirm}
-          style={styles.enrollmentButton}
           accessoryRight={(style) => (
             <Icon {...style} name="checkmark-circle-outline" />
           )}
@@ -83,7 +101,7 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: 'bold'
   },
-  subjectListBody: {
+  collapsibleBody: {
     marginTop: 10
   },
   subjectRow: {
@@ -95,13 +113,17 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 10
   },
+  button: {
+    marginTop: 20,
+    justifyContent: 'space-between',
+  },
   enrollmentButton: {
-    marginVertical: 20,
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 10,
   },
   notice: {
+    marginTop: 20,
     textAlign: 'center',
   },
 });
