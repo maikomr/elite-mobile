@@ -35,6 +35,9 @@ const ChessCourseScreen = () => {
         <Text style={styles.paragraph}>
           Mejora la memoria, la concentración, la disciplina, la resolución de problemas y el espíritu competitivo.
         </Text>
+        <Text style={styles.paragraph}>
+          Se parte de los torneos Plurinacionales, Departamentales y Nacionales de Ajedrez.
+        </Text>
         <View style={styles.collapsible}>
           <Collapsible title="Beneficios">
             <View style={styles.collapsibleBody}>
