@@ -12,6 +12,7 @@ import {
 } from '@ui-kitten/components';
 import { StackScreenProps } from '@react-navigation/stack';
 import stringifyDate from '../../utils/stringifyDate';
+import { companyInfo } from '../../constants/general';
 
 const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
   route,
@@ -92,9 +93,6 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
   );
 
   const handleConfirm = async () => {
-    const phoneWithCountryCode = '59160718014';
-    let mobile =
-      Platform.OS == 'ios' ? phoneWithCountryCode : '+' + phoneWithCountryCode;
     const msg = `Hola, solicito inscribirme al curso pre-universitario "${
       route.params.faculty.data().name
     }", que comienza el ${
@@ -104,7 +102,7 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
     } con duración de ${getMonthStr(
       durationOptions[selectedDurationIndex.row]
     )}.`;
-    let url = `whatsapp://send?text=${msg}&phone=${mobile}`;
+    const url = `whatsapp://send?text=${msg}&phone=${companyInfo.mobilePhoneNumber}`;
     try {
       await Linking.openURL(url);
     } catch (error) {

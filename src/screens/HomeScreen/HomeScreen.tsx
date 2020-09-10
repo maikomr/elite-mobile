@@ -6,6 +6,7 @@ import MapView, { Marker } from 'react-native-maps';
 
 import ROUTES from '../../constants/routes';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { companyInfo } from '../../constants/general';
 
 const HomeScreen: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
   <Layout style={styles.container}>
@@ -25,21 +26,21 @@ const HomeScreen: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
     </View>
     <View style={styles.contactContainer}>
       <TouchableHighlight
-        onPress={() => Linking.openURL(`tel:4483728`)}
+        onPress={() => Linking.openURL(`tel:${companyInfo.phoneNumber}`)}
         underlayColor="#FAFBFC"
       >
         <View style={styles.contactItemContainer}>
           <Icon name="phone-outline" style={styles.icon} fill="#8F9BB3" />
-          <Text>4483728</Text>
+          <Text>{companyInfo.phoneNumber}</Text>
         </View>
       </TouchableHighlight>
       <TouchableHighlight
-        onPress={() => Linking.openURL(`tel:74837382`)}
+        onPress={() => Linking.openURL(`tel:${companyInfo.mobilePhoneNumber}`)}
         underlayColor="#FAFBFC"
       >
         <View style={styles.contactItemContainer}>
           <Icon name="smartphone-outline" style={styles.icon} fill="#8F9BB3" />
-          <Text>74837382</Text>
+          <Text>{companyInfo.mobilePhoneNumber}</Text>
         </View>
       </TouchableHighlight>
     </View>
@@ -47,15 +48,15 @@ const HomeScreen: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
       <MapView
         style={styles.mapStyle}
         region={{
-          latitude: -17.392477,
-          longitude: -66.151015,
+          latitude: companyInfo.headquartersLocation.latitude,
+          longitude: companyInfo.headquartersLocation.longitude,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         }}
         scrollEnabled={false}
       >
         <Marker
-          coordinate={{ latitude: -17.392477, longitude: -66.151015 }}
+          coordinate={companyInfo.headquartersLocation}
           pinColor="red"
           title="Instituto Elite"
         />

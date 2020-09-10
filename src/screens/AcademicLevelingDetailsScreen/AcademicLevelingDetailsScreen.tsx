@@ -5,6 +5,7 @@ import { Layout, Text, Icon, Button } from '@ui-kitten/components';
 import ImageView from "react-native-image-viewing";
 import stringifyDate from '../../utils/stringifyDate';
 import Collapsible from '../../components/Collapsible';
+import { companyInfo } from '../../constants/general';
 
 const AcademicLevelingDetailsScreen: React.FC<StackScreenProps<any>> = ({ navigation, route }) => {
   const [isScheduleImageOpen, setIsScheduleImageOpen] = useState(false);
@@ -13,15 +14,12 @@ const AcademicLevelingDetailsScreen: React.FC<StackScreenProps<any>> = ({ naviga
   useEffect(() => navigation.setOptions({ title: route.params.data.title }), [route.params.data]);
 
   const handleConfirm = async () => {
-    const phoneWithCountryCode = '59160718014';
-    let mobile =
-      Platform.OS == 'ios' ? phoneWithCountryCode : '+' + phoneWithCountryCode;
     const msg = `Hola, solicito inscribirme al curso de nivelación académica para "${
       data.title
       }", que comienza el ${
       stringifyDate(data.startDate.toDate())
       }`;
-    let url = `whatsapp://send?text=${msg}&phone=${mobile}`;
+    const url = `whatsapp://send?text=${msg}&phone=${companyInfo.mobilePhoneNumber}`;
     try {
       await Linking.openURL(url);
     } catch (error) {
