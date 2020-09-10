@@ -19,11 +19,10 @@ const CategoryCard: React.FC<ICategoryCardProps> = ({ name, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     margin: 15,
-    borderRadius: 15,
+    borderRadius: 10,
     borderWidth: 0,
     shadowOpacity: 0.22,
     shadowRadius: 2.22,

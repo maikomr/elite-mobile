@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import firebase from 'firebase';
 import '@firebase/firestore';
 import { ScrollView, StyleSheet } from 'react-native';
@@ -23,11 +23,20 @@ const AcademicLevelingScreen: React.FC<StackScreenProps<any>> = ({ navigation })
     fetchAllAcademicLevelingCourses();
   }, []);
 
+  const sortedLevelingCourses = useMemo(() => {
+    if (!academicLevelingCourses) return [];
+    return academicLevelingCourses.sort((a: any, b: any) => {
+      const titleA: string = a.data().title;
+      const titleB: string = b.data().title;
+      return titleA.localeCompare(titleB);
+    });
+  }, [academicLevelingCourses]);
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {!academicLevelingCourses ? <LoadingState /> :
         <Layout style={styles.container} level="2">
-          {academicLevelingCourses.map((levelingCourse: any) => {
+          {sortedLevelingCourses.map((levelingCourse: any) => {
             const data = levelingCourse.data();
             return (
               <CategoryCard
@@ -46,6 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    justifyContent: 'flex-start',
   }
 });
 
