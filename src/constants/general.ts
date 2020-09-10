@@ -12,7 +12,7 @@ export const firebaseConfig = {
 };
 
 export const companyInfo = {
-  phoneNumber: 4483728,
+  phoneNumber: 4043004,
   mobilePhoneNumber: `${Platform.OS == 'ios' ? '' : '+'}59165771335`,
   headquartersLocation: { latitude: -17.392477, longitude: -66.151015 }
 };

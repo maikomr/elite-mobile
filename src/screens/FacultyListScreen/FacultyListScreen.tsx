@@ -47,7 +47,7 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       <FlatList
         data={facultyList}
         renderItem={renderFaculty}
-        keyExtractor={(faculty) => `faculty-${faculty.data().id}`}
+        keyExtractor={(faculty) => `faculty-${faculty.id}`}
       />
     </Layout>
   );
