@@ -20,5 +20,5 @@ export default (d: Date) => {
   const date = d.getDate();
   const monthName = months[d.getMonth()];
   const dayName = days[d.getDay()];
-  return `${dayName}, ${date} ${monthName} ${year}`;
+  return `${dayName}, ${date} ${monthName}, ${year}`;
 };
