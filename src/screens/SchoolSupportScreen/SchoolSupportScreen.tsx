@@ -8,7 +8,7 @@ import ROUTES from '../../constants/routes';
 const ScoolSupportScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => (
   <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <Layout style={styles.container} level="2">
-      <CategoryCard name="Nivelación Academica" onPress={() => navigation.push(ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING)} />
+      <CategoryCard name="Nivelación Académica" onPress={() => navigation.push(ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING)} />
     </Layout>
   </ScrollView>
 );

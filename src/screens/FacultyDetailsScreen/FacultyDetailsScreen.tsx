@@ -30,7 +30,7 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Layout style={styles.container}>
-        <Text>{faculty.description}</Text>
+        <Text style={styles.description}>{faculty.description}</Text>
         <Text style={styles.subtitle} category="h6">
           {`Modalidad${
             faculty.admissionTypes.length > 1 ? 'es' : ''
@@ -101,6 +101,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  description: {
+    lineHeight: 20
   },
   subtitle: {
     fontWeight: 'bold',
