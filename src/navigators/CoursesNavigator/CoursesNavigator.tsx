@@ -14,6 +14,7 @@ import AcademicLevelingScreen from '../../screens/AcademicLeveling';
 import AcademicLevelingDetailsScreen from '../../screens/AcademicLevelingDetailsScreen';
 
 import ROUTES from '../../constants/routes';
+import ChessCourseScreen from '../../screens/ChessCourseScreen';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +63,10 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
     <Stack.Screen
       name={ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING_DETAILS}
       component={AcademicLevelingDetailsScreen}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.CHESS}
+      component={ChessCourseScreen}
     />
   </Stack.Navigator>
 );

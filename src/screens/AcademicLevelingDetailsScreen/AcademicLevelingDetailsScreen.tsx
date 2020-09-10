@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Platform, Linking } from 'react-native';
+import { ScrollView, StyleSheet, View, Linking } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Layout, Text, Icon, Button } from '@ui-kitten/components';
 import ImageView from "react-native-image-viewing";

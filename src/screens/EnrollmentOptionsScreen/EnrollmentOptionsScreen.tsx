@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { ScrollView, StyleSheet, Linking, Platform } from 'react-native';
+import { ScrollView, StyleSheet, Linking } from 'react-native';
 import {
   Layout,
   Text,
