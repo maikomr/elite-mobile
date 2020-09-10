@@ -9,7 +9,7 @@ export interface ICollapsibleSectionProps {
 
 const Collapsible: React.FC<PropsWithChildren<ICollapsibleSectionProps>> = ({ title, withBorder = true, children }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const iconName = useMemo(() => `arrow-ios-${isOpen ? 'downward' : 'forward'}-outline`, [isOpen]);
+  const iconName = useMemo(() => `arrow-ios-${isOpen ? 'upward' : 'downward'}-outline`, [isOpen]);
 
   const toggleIsOpen = useCallback(() => setIsOpen(!isOpen), [isOpen, setIsOpen]);
 

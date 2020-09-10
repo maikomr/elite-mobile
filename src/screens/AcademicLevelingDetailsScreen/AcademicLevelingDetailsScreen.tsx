@@ -40,7 +40,7 @@ const AcademicLevelingDetailsScreen: React.FC<StackScreenProps<any>> = ({ naviga
           <Collapsible title="Materias">
             <View style={styles.subjectListBody}>
               {data.subjects.map((subject: any) => (
-                <View style={styles.subjectRow}>
+                <View style={styles.subjectRow} key={subject.name}>
                   <Icon style={styles.icon} name={subject.icon} fill="#000000" />
                   <Text style={styles.descriptionParagraph}>{subject.name}</Text>
                 </View>
