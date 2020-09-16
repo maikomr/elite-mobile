@@ -1,13 +1,24 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, Linking } from 'react-native';
-import { Layout, Text, Icon, Button } from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 import Collapsible from '../../components/Collapsible';
 import { companyInfo } from '../../constants/general';
+import WhatsappButton from '../../components/WhatsappButton/WhatsappButton';
+import LiveesButton from '../../components/LiveesButton/LiveesButton';
 
 const ChessCourseScreen = () => {
-  const handleConfirm = async () => {
+  const handleWhatsappPress = async () => {
     const msg = "Hola, solicito inscribirme al curso de Ajedrez";
     const url = `whatsapp://send?text=${msg}&phone=${companyInfo.mobilePhoneNumber}`;
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLiveesPress = async() => {
+    const url = `https://lck.page.link/CgVT`;
     try {
       await Linking.openURL(url);
     } catch (error) {
@@ -50,20 +61,12 @@ const ChessCourseScreen = () => {
           </Collapsible>
         </View>
         <Text style={styles.priceText}>Inversión: 120 Bs.</Text>
-        <Button
-          style={styles.enrollmentButton}
-          onPress={handleConfirm}
-          accessoryRight={(style) => (
-            <Icon {...style} name="checkmark-circle-outline" />
-          )}
-        >
-          Inscribirse a este curso
-        </Button>
-        <Text style={styles.notice}>
-          Nota: Al inscribirte se iniciará una conversación de Whatsapp en la que
-          podras contactarte con nosotros y continuar con el proceso de
-          inscripción.
-        </Text>
+        <View style={styles.button}>
+          <WhatsappButton onPress={handleWhatsappPress} />
+        </View>
+        <View style={styles.button}>
+          <LiveesButton onPress={handleLiveesPress} />
+        </View>
       </Layout>
     </ScrollView>
   );
@@ -76,10 +79,6 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     marginBottom: 5,
-    fontSize: 16
-  },
-  field: {
-    marginTop: 20,
     fontSize: 16
   },
   collapsible: {
@@ -97,15 +96,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center'
   },
-  enrollmentButton: {
+  button: {
     marginTop: 20,
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 10,
-  },
-  notice: {
-    marginTop: 20,
-    textAlign: 'center'
+    marginHorizontal: 30
   },
 });
 

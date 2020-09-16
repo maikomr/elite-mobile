@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { ScrollView, StyleSheet, Linking } from 'react-native';
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { ScrollView, StyleSheet, Linking, View } from "react-native";
 import {
   Layout,
   Text,
@@ -7,12 +7,12 @@ import {
   IndexPath,
   Select,
   SelectItem,
-  Button,
-  Icon,
-} from '@ui-kitten/components';
-import { StackScreenProps } from '@react-navigation/stack';
-import stringifyDate from '../../utils/stringifyDate';
-import { companyInfo } from '../../constants/general';
+} from "@ui-kitten/components";
+import { StackScreenProps } from "@react-navigation/stack";
+import stringifyDate from "../../utils/stringifyDate";
+import { companyInfo } from "../../constants/general";
+import WhatsappButton from "../../components/WhatsappButton/WhatsappButton";
+import LiveesButton from "../../components/LiveesButton/LiveesButton";
 
 const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
   route,
@@ -63,7 +63,7 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
   useEffect(() => {
     const fetchEnrollmentOptions = async () => {
       const snapshot = await route.params.faculty.ref
-        .collection('courses')
+        .collection("courses")
         .get();
       const availableCourses = snapshot.docs.map((s: any) => ({
         ...s.data(),
@@ -88,11 +88,11 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
   }, [availableCourses, selectedCourseIndex]);
 
   const getMonthStr = useCallback(
-    (month) => `${month} mes${month == '1' ? '' : 'es'}`,
+    (month) => `${month} mes${month == "1" ? "" : "es"}`,
     []
   );
 
-  const handleConfirm = async () => {
+  const handleWhatsappPress = async () => {
     const msg = `Hola, solicito inscribirme al curso pre-universitario "${
       route.params.faculty.data().name
     }", que comienza el ${
@@ -103,6 +103,15 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
       durationOptions[selectedDurationIndex.row]
     )}.`;
     const url = `whatsapp://send?text=${msg}&phone=${companyInfo.mobilePhoneNumber}`;
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLiveesPress = async () => {
+    const url = `https://lck.page.link/CgVT`;
     try {
       await Linking.openURL(url);
     } catch (error) {
@@ -174,20 +183,12 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({
             priceByDurationMap[durationOptions[selectedDurationIndex.row]]
           } Bs.`}
         </Text>
-        <Button
-          onPress={handleConfirm}
-          style={styles.confirmButton}
-          accessoryRight={(style) => (
-            <Icon {...style} name="checkmark-circle-outline" />
-          )}
-        >
-          confirmar
-        </Button>
-        <Text style={styles.notice}>
-          Nota: Al confirmar se iniciará una conversación de Whatsapp en la que
-          podras contactarte con nosotros y continuar con el proceso de
-          inscripción.
-        </Text>
+        <View style={styles.button}>
+          <WhatsappButton onPress={handleWhatsappPress} />
+        </View>
+        <View style={styles.button}>
+          <LiveesButton onPress={handleLiveesPress} />
+        </View>
       </Layout>
     </ScrollView>
   );
@@ -200,32 +201,27 @@ const styles = StyleSheet.create({
   },
   loadingStateContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   overview: {
     marginBottom: 40,
   },
   subtitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   select: {
     marginBottom: 40,
   },
   priceText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  confirmButton: {
-    marginVertical: 40,
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 10,
-  },
-  notice: {
-    textAlign: 'center',
+  button: {
+    marginVertical: 20,
+    marginHorizontal: 30,
   },
 });
 
