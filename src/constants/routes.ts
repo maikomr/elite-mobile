@@ -7,6 +7,7 @@ const ROUTES = {
       FACULTY_DETAILS: 'FACULTY_DETAILS',
       CAREER_LIST: 'Carreras',
       SUBJECT_LIST: 'Materias',
+      PRE_UNIVERSITY_SUBJECT_DETAILS: 'PRE_UNIVERSITY_SUBJECT_DETAILS',
       ENROLLMENT_OPTIONS: 'Opciones de Inscripción',
     },
     UNIVERSITARIOS: {

@@ -1,12 +1,13 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { Layout, Spinner } from '@ui-kitten/components';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import CategoryCard from '../../components/CategoryCard';
 import { Subject } from '../../models/subject';
+import ROUTES from '../../constants/routes';
 
-const SubjectListScreen: React.FC<StackScreenProps<any>> = ({ route }) => {
+const SubjectListScreen: React.FC<StackScreenProps<any>> = ({ navigation, route }) => {
   const [subjectList, setSubjectList] = useState<Subject[]>();
 
   useEffect(() => {
@@ -23,7 +24,10 @@ const SubjectListScreen: React.FC<StackScreenProps<any>> = ({ route }) => {
   }, [route.params.subjects]);
 
   const renderSubject: ListRenderItem<any> = ({ item: subject }) => (
-    <CategoryCard name={subject.name} onPress={() => {}} />
+    <CategoryCard
+      name={subject.name}
+      onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.PRE_UNIVERSITY_SUBJECT_DETAILS, { subject })}
+    />
   );
 
   if (!subjectList) {

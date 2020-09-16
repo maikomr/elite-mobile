@@ -1,7 +1,9 @@
 export type Subject = {
-  id: number;
-  title: string;
-  description?: string;
+  id?: string;
+  name: string;
+  duration: string;
+  hourlyRate: number;
+  monthlyRate: number;
 }
 
 export type SubjectMap = { [id: string]: Subject };

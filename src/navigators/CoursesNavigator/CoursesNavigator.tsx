@@ -2,18 +2,19 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
+import ROUTES from '../../constants/routes';
+
 import CoursesScreen from '../../screens/CoursesScreen';
 import FacultyListScreen from '../../screens/FacultyListScreen';
 import FacultyDetailsScreen from '../../screens/FacultyDetailsScreen';
 import CareerListScreen from '../../screens/CareerListScreen';
 import SubjectListScreen from '../../screens/SubjectlistScreen';
+import PreUniversitySubjectScreen from '../../screens/PreUniversitySubjectScreen';
 import SchoolSupportScreen from '../../screens/SchoolSupportScreen';
 import EnrollmentOptionsScreen from '../../screens/EnrollmentOptionsScreen';
 import MenuButton from '../../components/MenuButton';
 import AcademicLevelingScreen from '../../screens/AcademicLeveling';
 import AcademicLevelingDetailsScreen from '../../screens/AcademicLevelingDetailsScreen';
-
-import ROUTES from '../../constants/routes';
 import ChessCourseScreen from '../../screens/ChessCourseScreen';
 
 const Stack = createStackNavigator();
@@ -47,6 +48,10 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITY.SUBJECT_LIST}
       component={SubjectListScreen}
+    />
+    <Stack.Screen
+      name={ROUTES.COURSES.PRE_UNIVERSITY.PRE_UNIVERSITY_SUBJECT_DETAILS}
+      component={PreUniversitySubjectScreen}
     />
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITY.ENROLLMENT_OPTIONS}
