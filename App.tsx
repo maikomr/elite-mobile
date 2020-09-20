@@ -1,50 +1,85 @@
-import React, { useEffect } from "react";
-import firebase from 'firebase';
+import React, { useCallback, useEffect, useState } from "react";
+import firebase from "firebase";
 import * as eva from "@eva-design/eva";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 
+import SignInScreen from "./src/screens/SignInScreen";
+import LoadingAuthScreen from "./src/screens/LoadingAuthScreen";
 import DrawerContent from "./src/components/DrawerContent";
 import HomeNavigator from "./src/navigators/HomeNavigator";
 import CoursesNavigator from "./src/navigators/CoursesNavigator";
 import GalleryNavigator from "./src/navigators/GalleryNavigator";
 import AboutUsNavigator from "./src/navigators/AboutUsNavigator";
 
-import { firebaseConfig } from "./src/constants/general";
 import ROUTES from "./src/constants/routes";
+import { firebaseConfig } from "./src/firebaseConfig";
 
 import { default as customTheme } from "./custom-theme.json";
+import { createStackNavigator } from "@react-navigation/stack";
 
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-export default function App() {
+const App = () => {
+  const [currentUser, setCurrentUser] = useState();
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+
+  const handleAuthStateChanged = useCallback(async (user) => {
+    if (user) {
+      setCurrentUser(user);
+      setIsLoadingAuth(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-  }, []);
-
+    firebase.auth().onAuthStateChanged(handleAuthStateChanged);
+  }, [handleAuthStateChanged]);
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={{ ...eva.light, ...customTheme }}>
         <NavigationContainer>
-          <Drawer.Navigator
-            initialRouteName={ROUTES.HOME}
-            drawerContent={DrawerContent}
-          >
-            <Drawer.Screen name={ROUTES.HOME} component={HomeNavigator} />
-            <Drawer.Screen name={ROUTES.COURSES.ROOT} component={CoursesNavigator} />
-            <Drawer.Screen name={ROUTES.GALLERY} component={GalleryNavigator} />
-            <Drawer.Screen
-              name={ROUTES.ABOUT_US}
-              component={AboutUsNavigator}
-            />
-          </Drawer.Navigator>
+          {currentUser ? (
+            <Drawer.Navigator
+              initialRouteName={ROUTES.HOME}
+              drawerContent={DrawerContent}
+            >
+              <Drawer.Screen name={ROUTES.HOME} component={HomeNavigator} />
+              <Drawer.Screen
+                name={ROUTES.COURSES.ROOT}
+                component={CoursesNavigator}
+              />
+              <Drawer.Screen
+                name={ROUTES.GALLERY}
+                component={GalleryNavigator}
+              />
+              <Drawer.Screen
+                name={ROUTES.ABOUT_US}
+                component={AboutUsNavigator}
+              />
+            </Drawer.Navigator>
+          ) : (
+            <Stack.Navigator>
+              {isLoadingAuth ? (
+                <Stack.Screen
+                  name="LoadingAuth"
+                  component={LoadingAuthScreen}
+                />
+              ) : (
+                <Stack.Screen name="SignIn" component={SignInScreen} />
+              )}
+            </Stack.Navigator>
+          )}
         </NavigationContainer>
       </ApplicationProvider>
     </>
   );
-}
+};
+
+export default App;

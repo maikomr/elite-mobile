@@ -9,7 +9,7 @@ import CategoryCard from '../../components/CategoryCard';
 import ROUTES from '../../constants/routes';
 
 const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-  const [facultyList, setFacultyList] = useState<firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]>();
+  const [facultyList, setFacultyList] = useState<any[]>();
 
   useEffect(() => {
     const fetchFacultyList = async () => {
