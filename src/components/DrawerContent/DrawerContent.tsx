@@ -1,4 +1,5 @@
 import React from "react";
+import firebase from "firebase";
 import { StyleSheet, View } from "react-native";
 import {
   Avatar,
@@ -12,7 +13,6 @@ import {
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
 import ROUTES from "../../constants/routes";
-import firebase from "firebase";
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = ({
   navigation,
@@ -21,6 +21,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({
   const currentUser = firebase.auth().currentUser;
   const username = currentUser?.displayName;
   const avatarUrl = currentUser?.photoURL;
+
   return (
     <View style={styles.container}>
       <Text category="h6" style={styles.headerTitle}>
@@ -38,6 +39,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({
             accessoryLeft={(props) => (
               <Icon {...props} name="log-out-outline" />
             )}
+            onPress={() => firebase.auth().signOut()}
           />
         </View>
       )}

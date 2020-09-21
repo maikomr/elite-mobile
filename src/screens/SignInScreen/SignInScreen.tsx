@@ -1,10 +1,12 @@
+import { Button, Icon, Spinner, Text } from "@ui-kitten/components";
 import * as Google from "expo-google-app-auth";
 import firebase from "firebase";
 import React, { useState } from "react";
-import { Button, ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 const SignInScreen = () => {
   const [signInError, setSignInError] = useState();
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false);
 
   // const isUserEqual = (googleUser: any, firebaseUser: any) => {
   //   console.log(googleUser.user.id);
@@ -68,7 +70,8 @@ const SignInScreen = () => {
           result.idToken,
           result.accessToken
         );
-        await firebase.auth().signInWithCredential(credential);
+        setIsLoadingAuth(true);
+        firebase.auth().signInWithCredential(credential);
       }
     } catch (e) {
       setSignInError(e.message);
@@ -77,7 +80,21 @@ const SignInScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Button title="Sign In With Google" onPress={signInWithGoogle} />
+      <Button
+        onPress={signInWithGoogle}
+        appearance="outline"
+        accessoryLeft={(props) =>
+          isLoadingAuth ? (
+            <View {...props} style={styles.indicator}>
+              <Spinner size="small" />
+            </View>
+          ) : (
+            <Icon {...props} name="google-outline" />
+          )
+        }
+      >
+        Iniciar Sesión Google
+      </Button>
       {signInError && <Text>{signInError}</Text>}
     </ScrollView>
   );
@@ -86,6 +103,10 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  indicator: {
     justifyContent: "center",
     alignItems: "center",
   },

@@ -28,10 +28,8 @@ const App = () => {
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 
   const handleAuthStateChanged = useCallback(async (user) => {
-    if (user) {
-      setCurrentUser(user);
-      setIsLoadingAuth(false);
-    }
+    setCurrentUser(user);
+    setIsLoadingAuth(false);
   }, []);
 
   useEffect(() => {
@@ -72,7 +70,7 @@ const App = () => {
                   component={LoadingAuthScreen}
                 />
               ) : (
-                <Stack.Screen name="SignIn" component={SignInScreen} />
+                <Stack.Screen name="Iniciar Sesión" component={SignInScreen} />
               )}
             </Stack.Navigator>
           )}
