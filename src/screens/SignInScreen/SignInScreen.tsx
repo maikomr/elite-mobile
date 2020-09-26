@@ -8,53 +8,6 @@ const SignInScreen = () => {
   const [signInError, setSignInError] = useState();
   const [isLoadingAuth, setIsLoadingAuth] = useState(false);
 
-  // const isUserEqual = (googleUser: any, firebaseUser: any) => {
-  //   console.log(googleUser.user.id);
-  //   console.log(firebaseUser.providerData[0].uid);
-  //   if (firebaseUser) {
-  //     var providerData = firebaseUser.providerData;
-  //     for (var i = 0; i < providerData.length; i++) {
-  //       if (
-  //         providerData[i].providerId ===
-  //           firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-  //         providerData[i].uid === googleUser.user.id
-  //       ) {
-  //         // We don't need to reauth the Firebase connection.
-  //         return true;
-  //       }
-  //     }
-  //   }
-  //   return false;
-  // };
-
-  // const onSignIn = (googleUser: any) => {
-  //   var unsubscribe = firebase
-  //     .auth()
-  //     .onAuthStateChanged(async (firebaseUser) => {
-  //       unsubscribe();
-  //       if (!isUserEqual(googleUser, firebaseUser)) {
-  //         const credential = firebase.auth.GoogleAuthProvider.credential(
-  //           googleUser.idToken,
-  //           googleUser.accessToken
-  //         );
-  //         try {
-  //           await firebase.auth().signInWithCredential(credential);
-  //         } catch (error) {
-  //           // Handle Errors here.
-  //           // var errorCode = error.code;
-  //           // var errorMessage = error.message;
-  //           // The email of the user's account used.
-  //           // var email = error.email;
-  //           // The firebase.auth.AuthCredential type that was used.
-  //           // var credential = error.credential;
-  //           // ...
-  //         }
-  //       } else {
-  //         console.log("User already signed-in Firebase.");
-  //       }
-  //     });
-  // };
-
   const signInWithGoogle = async () => {
     try {
       const result = await Google.logInAsync({
@@ -65,7 +18,6 @@ const SignInScreen = () => {
         scopes: ["profile", "email"],
       });
       if (result.type === "success") {
-        // onSignIn(result);
         const credential = firebase.auth.GoogleAuthProvider.credential(
           result.idToken,
           result.accessToken
