@@ -31,6 +31,7 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
         headerLeft: (props) => (
           <MenuButton {...props} onPress={navigation.openDrawer} />
         ),
+        title: 'Course'
       }}
     />
     <Stack.Screen

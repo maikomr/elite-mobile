@@ -19,8 +19,6 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({
   state,
 }) => {
   const currentUser = firebase.auth().currentUser;
-  const username = currentUser?.displayName;
-  const avatarUrl = currentUser?.photoURL;
 
   return (
     <View style={styles.container}>
@@ -29,18 +27,14 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({
       </Text>
       {currentUser && (
         <View style={styles.userInfo}>
-          {avatarUrl ? (
-            <Avatar size="small" shape="rounded" source={{ uri: avatarUrl }} />
+          {currentUser?.photoURL ? (
+            <Avatar
+              size="small"
+              shape="rounded"
+              source={{ uri: currentUser?.photoURL }}
+            />
           ) : null}
-          <Text style={styles.username}>{username || ""}</Text>
-          <Button
-            size="medium"
-            appearance="ghost"
-            accessoryLeft={(props) => (
-              <Icon {...props} name="log-out-outline" />
-            )}
-            onPress={() => firebase.auth().signOut()}
-          />
+          <Text style={styles.username}>{currentUser?.displayName || ""}</Text>
         </View>
       )}
       <Drawer
@@ -52,6 +46,15 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({
         <DrawerItem title={ROUTES.GALLERY} />
         <DrawerItem title={ROUTES.ABOUT_US} />
       </Drawer>
+      <Button
+        style={styles.logoutButton}
+        size="medium"
+        appearance="ghost"
+        accessoryRight={(props) => <Icon {...props} name="log-out-outline" />}
+        onPress={() => firebase.auth().signOut()}
+      >
+        Cerrar sesión
+      </Button>
     </View>
   );
 };
@@ -74,6 +77,11 @@ const styles = StyleSheet.create({
   username: {
     marginLeft: 10,
     marginRight: "auto",
+  },
+  logoutButton: {
+    marginTop: "auto",
+    paddingHorizontal: 0,
+    justifyContent: "space-between",
   },
 });
 

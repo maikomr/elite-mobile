@@ -27,7 +27,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 
-  const handleAuthStateChanged = useCallback(async (user) => {
+  const handleAuthStateChange = useCallback(async (user: any) => {
     setCurrentUser(user);
     setIsLoadingAuth(false);
   }, []);
@@ -35,9 +35,10 @@ const App = () => {
   useEffect(() => {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
+      firebase.auth().onAuthStateChanged(handleAuthStateChange);
     }
-    firebase.auth().onAuthStateChanged(handleAuthStateChanged);
-  }, [handleAuthStateChanged]);
+  }, [handleAuthStateChange]);
+
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
@@ -68,9 +69,14 @@ const App = () => {
                 <Stack.Screen
                   name="LoadingAuth"
                   component={LoadingAuthScreen}
+                  options={{ headerShown: false }}
                 />
               ) : (
-                <Stack.Screen name="Iniciar Sesión" component={SignInScreen} />
+                <Stack.Screen
+                  name="Iniciar Sesión"
+                  component={SignInScreen}
+                  options={{ headerTitleAlign: "center" }}
+                />
               )}
             </Stack.Navigator>
           )}

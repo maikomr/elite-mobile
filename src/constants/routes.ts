@@ -1,7 +1,7 @@
 const ROUTES = {
   HOME: 'INICIO',
   COURSES: {
-    ROOT: 'Cursos',
+    ROOT: 'CURSOS',
     PRE_UNIVERSITY: {
       ROOT: 'Pre Universitarios',
       FACULTY_DETAILS: 'FACULTY_DETAILS',
