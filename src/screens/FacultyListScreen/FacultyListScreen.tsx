@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import firebase from 'firebase';
-import '@firebase/firestore';
-import { StyleSheet, FlatList, ListRenderItem } from 'react-native';
-import { Layout, Spinner } from '@ui-kitten/components';
-import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useState } from "react";
+import firebase from "firebase";
+import "@firebase/firestore";
+import { StyleSheet, FlatList, ListRenderItem } from "react-native";
+import { Layout, Spinner } from "@ui-kitten/components";
+import { StackScreenProps } from "@react-navigation/stack";
 
-import CategoryCard from '../../components/CategoryCard';
-import ROUTES from '../../constants/routes';
+import CategoryCard from "../../components/CategoryCard";
+import ROUTES from "../../constants/routes";
+import { docType } from "../../utils/docType";
 
 const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-  const [facultyList, setFacultyList] = useState<any[]>();
+  const [faculties, setFaculties] = useState<docType[]>();
 
   useEffect(() => {
-    const fetchFacultyList = async () => {
-      const snapshot = await firebase.firestore().collection('faculties').get();
-      setFacultyList(snapshot.docs);
+    const fetchFaculties = async () => {
+      const snapshot = await firebase.firestore().collection("universities/umss-cochabamba/faculties").get();
+      setFaculties(snapshot.docs);
     };
-    fetchFacultyList();
+    fetchFaculties();
   }, []);
 
-  const navigateToFacultyDetails = (item: any) => () =>
-    navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS, {
-      faculty: item,
-    });
-
-  const renderFaculty: ListRenderItem<any> = ({ item: faculty }) => {
+  const renderFaculty: ListRenderItem<docType> = useCallback(({ item: faculty }) => {
     const data = faculty.data();
     return (
       <CategoryCard
         name={data.name}
-        onPress={navigateToFacultyDetails(faculty)}
+        onPress={() =>
+          navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS, {
+            faculty,
+          })
+        }
       />
     );
-  };
+  }, []);
 
-  if (!facultyList) {
+  if (!faculties) {
     return (
       <Layout style={styles.loadingStateContainer}>
         <Spinner size="giant" />
@@ -44,11 +44,7 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
   return (
     <Layout style={styles.container} level="2">
-      <FlatList
-        data={facultyList}
-        renderItem={renderFaculty}
-        keyExtractor={(faculty) => `faculty-${faculty.id}`}
-      />
+      <FlatList data={faculties} renderItem={renderFaculty} keyExtractor={(faculty) => `faculty-${faculty.id}`} />
     </Layout>
   );
 };
@@ -60,8 +56,8 @@ const styles = StyleSheet.create({
   },
   loadingStateContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

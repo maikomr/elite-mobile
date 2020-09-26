@@ -4,11 +4,11 @@ import { Icon } from '@ui-kitten/components';
 
 export interface ICollapsibleSectionProps {
   title: string;
-  withBorder?: boolean;
+  initiallyOpen?: boolean;
 }
 
-const Collapsible: React.FC<PropsWithChildren<ICollapsibleSectionProps>> = ({ title, withBorder = true, children }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const Collapsible: React.FC<PropsWithChildren<ICollapsibleSectionProps>> = ({ title, initiallyOpen = true, children }) => {
+  const [isOpen, setIsOpen] = useState(initiallyOpen);
   const iconName = useMemo(() => `arrow-ios-${isOpen ? 'upward' : 'downward'}-outline`, [isOpen]);
 
   const toggleIsOpen = useCallback(() => setIsOpen(!isOpen), [isOpen, setIsOpen]);
