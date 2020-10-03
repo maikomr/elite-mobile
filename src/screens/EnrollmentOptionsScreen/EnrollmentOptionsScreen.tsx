@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { ScrollView, StyleSheet, Linking, View } from "react-native";
-import { Layout, Text, Spinner, IndexPath, Select, SelectItem, CheckBox, Card, Icon } from "@ui-kitten/components";
+import { ScrollView, StyleSheet, Linking, View, TouchableHighlight } from "react-native";
+import {
+  Layout,
+  Text,
+  Spinner,
+  IndexPath,
+  Select,
+  SelectItem,
+  CheckBox,
+  Card,
+  Icon,
+  Popover,
+} from "@ui-kitten/components";
 import { StackScreenProps } from "@react-navigation/stack";
 import stringifyDate from "../../utils/stringifyDate";
 import { companyInfo } from "../../constants/general";
@@ -17,6 +28,7 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
   const [subjects, setSubjects] = useState<docType[]>();
   const [selectedSubjects, setSelectedSubjects] = useState<SelectedSubjetMap>({});
   const [selectedSaleIndex, setSelectedSaleIndex] = useState<IndexPath>();
+  const [visibleSubjectInfo, setVisibleSubjectInfo] = useState<string>();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -93,8 +105,8 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
       return selectedCourse.sales[selectedSaleIndex.row].price;
     } else {
       let price = 0;
-      subjects.forEach((s: docType) => {
-        if (selectedSubjects[s.id]) price += s.data().monthlyRate;
+      subjects.forEach((s: docType, index) => {
+        if (selectedSubjects[s.id]) price += selectedCourse.subjects[index].monthlyRate;
       });
       return price;
     }
@@ -163,17 +175,33 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
           </CheckBox>
         </View>
         <View>
-          {subjects.map((subject: docType) => {
+          {subjects.map((subject: docType, index) => {
             const data = subject.data();
             return (
-              <CheckBox
-                key={subject.id}
-                style={styles.subjectCheckBox}
-                checked={selectedSubjects[subject.id]}
-                onChange={(checked) => setSelectedSubjects({ ...selectedSubjects, [subject.id]: checked })}
-              >
-                {data.name}
-              </CheckBox>
+              <View style={styles.subjectCheckBoxContainer}>
+                <CheckBox
+                  key={subject.id}
+                  style={styles.subjectCheckBox}
+                  checked={selectedSubjects[subject.id]}
+                  onChange={(checked) => setSelectedSubjects({ ...selectedSubjects, [subject.id]: checked })}
+                >
+                  {(evaProps) => <Text {...evaProps} style={styles.subjectCheckBoxText}>{data.name}</Text>}
+                </CheckBox>
+                <Popover
+                  anchor={() => (
+                    <TouchableHighlight onPress={() => setVisibleSubjectInfo(subject.id)} underlayColor="#ffffff">
+                      <Icon style={styles.subjectInfoIcon} fill="#000000" name="info-outline" />
+                    </TouchableHighlight>
+                  )}
+                  visible={visibleSubjectInfo === subject.id}
+                  onBackdropPress={() => setVisibleSubjectInfo('')}
+                >
+                  <Layout style={styles.subjectInfoContainer}>
+                  <Text>{`Precio mensual: ${selectedCourse.subjects[index].monthlyRate} Bs.`}</Text>
+                    <Text>{selectedCourse.subjects[index].description}</Text>
+                  </Layout>
+                </Popover>
+              </View>
             );
           })}
         </View>
@@ -244,8 +272,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 11,
   },
+  subjectCheckBoxContainer: {
+    flexDirection: "row",
+  },
   subjectCheckBox: {
     marginBottom: 10,
+  },
+  subjectInfoIcon: {
+    width: 20,
+    height: 20,
+  },
+  subjectInfoContainer: {
+    width: 250,
+    padding: 5,
+    borderRadius: 10,
+    borderWidth: 0,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  subjectCheckBoxText: {
+    marginLeft: 11,
+    marginRight: 5,
+    fontSize: 14
   },
   salesContainer: {
     flexDirection: "row",
@@ -294,7 +343,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   button: {
-    marginVertical: 20,
+    marginTop: 20,
     marginHorizontal: 30,
   },
 });

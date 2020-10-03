@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#128c7e",
     borderColor: "#128c7e",
     justifyContent: "space-between",
+    borderRadius: 10,
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 10,
