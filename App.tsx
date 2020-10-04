@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import firebase from "firebase";
+import "@firebase/firestore";
 import * as eva from "@eva-design/eva";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -8,29 +9,46 @@ import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 
 import SignInScreen from "./src/screens/SignInScreen";
 import LoadingAuthScreen from "./src/screens/LoadingAuthScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
 import DrawerContent from "./src/components/DrawerContent";
 import HomeNavigator from "./src/navigators/HomeNavigator";
 import CoursesNavigator from "./src/navigators/CoursesNavigator";
 import GalleryNavigator from "./src/navigators/GalleryNavigator";
 import AboutUsNavigator from "./src/navigators/AboutUsNavigator";
 
-import ROUTES from "./src/constants/routes";
 import { firebaseConfig } from "./src/firebaseConfig";
-
 import { default as customTheme } from "./custom-theme.json";
 import { createStackNavigator } from "@react-navigation/stack";
+import { docType } from "./src/utils/docType";
+
+import ROUTES from "./src/constants/routes";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState();
+  const [firebaseUser, setFirebaseUser] = useState<firebase.User>();
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+  const [currentUser, setCurrentUser] = useState<docType>();
 
-  const handleAuthStateChange = useCallback(async (user: any) => {
-    setCurrentUser(user);
-    setIsLoadingAuth(false);
+  const handleAuthStateChange = useCallback(async (user: firebase.User | null) => {
+    if (user) {
+      setFirebaseUser(user);
+    }
   }, []);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const userDoc = await firebase.firestore().collection("users").doc(firebaseUser?.uid).get();
+      if (userDoc.exists) {
+        console.log(userDoc.data());
+        setCurrentUser(userDoc as docType);
+      }
+      setIsLoadingAuth(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (!firebase.apps.length) {
@@ -39,46 +57,38 @@ const App = () => {
     }
   }, [handleAuthStateChange]);
 
+  useEffect(() => {
+    if (firebaseUser && isLoadingAuth) {
+      fetchCurrentUser();
+    }
+  }, [firebaseUser, fetchCurrentUser]);
+
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={{ ...eva.light, ...customTheme }}>
         <NavigationContainer>
-          {currentUser ? (
-            <Drawer.Navigator
-              initialRouteName={ROUTES.HOME}
-              drawerContent={DrawerContent}
-            >
-              <Drawer.Screen name={ROUTES.HOME} component={HomeNavigator} />
-              <Drawer.Screen
-                name={ROUTES.COURSES.ROOT}
-                component={CoursesNavigator}
-              />
-              <Drawer.Screen
-                name={ROUTES.GALLERY}
-                component={GalleryNavigator}
-              />
-              <Drawer.Screen
-                name={ROUTES.ABOUT_US}
-                component={AboutUsNavigator}
-              />
-            </Drawer.Navigator>
-          ) : (
-            <Stack.Navigator>
-              {isLoadingAuth ? (
+          {isLoadingAuth ? (
+            <Stack.Screen name="LoadingAuth" component={LoadingAuthScreen} options={{ headerShown: false }} />
+          ) : firebaseUser ? (
+            currentUser ? (
+              <Drawer.Navigator initialRouteName={ROUTES.HOME} drawerContent={DrawerContent}>
+                <Drawer.Screen name={ROUTES.HOME} component={HomeNavigator} />
+                <Drawer.Screen name={ROUTES.COURSES.ROOT} component={CoursesNavigator} />
+                <Drawer.Screen name={ROUTES.GALLERY} component={GalleryNavigator} />
+                <Drawer.Screen name={ROUTES.ABOUT_US} component={AboutUsNavigator} />
+              </Drawer.Navigator>
+            ) : (
+              <Stack.Navigator>
                 <Stack.Screen
-                  name="LoadingAuth"
-                  component={LoadingAuthScreen}
-                  options={{ headerShown: false }}
-                />
-              ) : (
-                <Stack.Screen
-                  name="Iniciar Sesión"
-                  component={SignInScreen}
+                  name="Datos del Estudiante"
+                  component={RegisterScreen}
                   options={{ headerTitleAlign: "center" }}
                 />
-              )}
-            </Stack.Navigator>
+              </Stack.Navigator>
+            )
+          ) : (
+            <Stack.Screen name="Iniciar Sesión" component={SignInScreen} options={{ headerTitleAlign: "center" }} />
           )}
         </NavigationContainer>
       </ApplicationProvider>

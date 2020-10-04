@@ -13,9 +13,8 @@ const ROUTES = {
     UNIVERSITARIOS: {
       ROOT: 'UNIVERSITARIOS',
     },
-    SCHOOL_SUPPORT: {
-      ROOT: 'Apoyo Escolar',
-      ACADEMIC_LEVELING: 'Nivelación Académica',
+    ACADEMIC_LEVELING: {
+      ROOT: 'Nivelación Académica',
       ACADEMIC_LEVELING_DETAILS: 'ACADEMIC_LEVELING_DETAILS'
     },
     CHESS: 'Ajedrez'

@@ -42,7 +42,7 @@ const AcademicLevelingScreen: React.FC<StackScreenProps<any>> = ({ navigation })
               <CategoryCard
                 key={data.id}
                 name={data.title}
-                onPress={() => navigation.push(ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING_DETAILS, { data })}
+                onPress={() => navigation.push(ROUTES.COURSES.ACADEMIC_LEVELING.ACADEMIC_LEVELING_DETAILS, { data })}
               />
             );
           })}

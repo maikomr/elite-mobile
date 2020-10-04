@@ -17,7 +17,7 @@ const CoursesScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
         <RootCategoryCard title="Universitarios" onPress={() => {}} />
         <RootCategoryCard
           title="Apoyo Escolar"
-          onPress={() => navigation.push(ROUTES.COURSES.SCHOOL_SUPPORT.ROOT)}
+          onPress={() => navigation.push(ROUTES.COURSES.ACADEMIC_LEVELING.ROOT)}
         />
         <RootCategoryCard
           title="Ajedrez"

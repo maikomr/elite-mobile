@@ -8,9 +8,8 @@ import CoursesScreen from '../../screens/CoursesScreen';
 import FacultyListScreen from '../../screens/FacultyListScreen';
 import FacultyDetailsScreen from '../../screens/FacultyDetailsScreen';
 import CareerListScreen from '../../screens/CareerListScreen';
-import SubjectListScreen from '../../screens/SubjectlistScreen';
+import SubjectListScreen from '../../screens/SubjectListScreen';
 import PreUniversitySubjectScreen from '../../screens/PreUniversitySubjectScreen';
-import SchoolSupportScreen from '../../screens/SchoolSupportScreen';
 import EnrollmentOptionsScreen from '../../screens/EnrollmentOptionsScreen';
 import MenuButton from '../../components/MenuButton';
 import AcademicLevelingScreen from '../../screens/AcademicLeveling';
@@ -59,15 +58,11 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
       component={EnrollmentOptionsScreen}
     />
     <Stack.Screen
-      name={ROUTES.COURSES.SCHOOL_SUPPORT.ROOT}
-      component={SchoolSupportScreen}
-    />
-    <Stack.Screen
-      name={ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING}
+      name={ROUTES.COURSES.ACADEMIC_LEVELING.ROOT}
       component={AcademicLevelingScreen}
     />
     <Stack.Screen
-      name={ROUTES.COURSES.SCHOOL_SUPPORT.ACADEMIC_LEVELING_DETAILS}
+      name={ROUTES.COURSES.ACADEMIC_LEVELING.ACADEMIC_LEVELING_DETAILS}
       component={AcademicLevelingDetailsScreen}
     />
     <Stack.Screen
