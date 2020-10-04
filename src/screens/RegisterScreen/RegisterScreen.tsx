@@ -64,7 +64,7 @@ const RegisterScreen = () => {
       <Layout style={styles.container}>
         <View style={styles.formControl}>
           <Text style={styles.formLabel}>* Nombre completo:</Text>
-          <Input placeholder="Nombre completo" value={fullName} onChangeText={setFullName} />
+          <Input style={styles.formInput} placeholder="Nombre completo" value={fullName} onChangeText={setFullName} />
           {errors.fullName?.length &&
             errors.fullName.map((e, i) => (
               <Text key={`error-fullName-${i}`} style={styles.errorMessage}>
@@ -78,6 +78,7 @@ const RegisterScreen = () => {
             placeholder="Fecha de nacimiento"
             date={birthDate}
             onSelect={setBirthDate}
+            controlStyle={styles.formInput}
             min={new Date(Date.parse("01 Jan 1900 00:00:00 GMT"))}
           />
           {errors.birthDate?.length &&
@@ -91,7 +92,12 @@ const RegisterScreen = () => {
           <Text style={styles.formLabel}>* Teléfono:</Text>
           <View style={styles.phoneInputContainer}>
             <CountryPicker countryCode={countryCode} withCallingCode={true} onSelect={handleCountrySelect} />
-            <Input style={styles.phoneInput} placeholder="000 0000" value={phone} onChangeText={setPhone} />
+            <Input
+              style={[styles.formInput, styles.phoneInput]}
+              placeholder="000 0000"
+              value={phone}
+              onChangeText={setPhone}
+            />
           </View>
           {errors.phone?.length &&
             errors.phone.map((e, i) => (
@@ -102,7 +108,7 @@ const RegisterScreen = () => {
         </View>
         <View style={styles.formControl}>
           <Text style={styles.formLabel}>* Ciudad:</Text>
-          <Input placeholder="Ciudad" value={city} onChangeText={setCity} />
+          <Input style={styles.formInput} placeholder="Ciudad" value={city} onChangeText={setCity} />
           {errors.city?.length &&
             errors.city.map((e, i) => (
               <Text key={`error-fullName-${i}`} style={styles.errorMessage}>
@@ -111,7 +117,11 @@ const RegisterScreen = () => {
             ))}
         </View>
         <View style={styles.submitBtnContainer}>
-          <Button onPress={onSubmit} accessoryRight={(_) => <MaterialIcons name="check" size={24} color="white" />}>
+          <Button
+            style={styles.submitBtn}
+            onPress={onSubmit}
+            accessoryRight={(_) => <MaterialIcons name="check" size={24} color="white" />}
+          >
             Confirmar registro
           </Button>
         </View>
@@ -132,13 +142,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: "bold",
   },
+  formInput: {
+    borderRadius: 8,
+  },
   phoneInputContainer: {
-    // flex: 1,
     flexDirection: "row",
     alignItems: "center",
   },
   phoneInput: {
-    flex: 1
+    flex: 1,
   },
   errorMessage: {
     color: "red",
@@ -146,6 +158,12 @@ const styles = StyleSheet.create({
   submitBtnContainer: {
     marginTop: 40,
     paddingHorizontal: 40,
+  },
+  submitBtn: {
+    borderRadius: 10,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 10,
   },
 });
 
