@@ -31,37 +31,41 @@ const App = () => {
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const [currentUser, setCurrentUser] = useState<docType>();
 
-  const handleAuthStateChange = useCallback(async (user: firebase.User | null) => {
-    if (user) {
-      setFirebaseUser(user);
-    }
-  }, []);
-
-  const fetchCurrentUser = async () => {
+  const fetchCurrentUser = useCallback(async () => {
     try {
       const userDoc = await firebase.firestore().collection("users").doc(firebaseUser?.uid).get();
       if (userDoc.exists) {
-        console.log(userDoc.data());
         setCurrentUser(userDoc as docType);
       }
-      setIsLoadingAuth(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoadingAuth(false);
     }
-  };
+  }, [firebaseUser]);
+
+  const handleAuthStateChange = useCallback(
+    async (user: firebase.User | null) => {
+      if (user && (!firebaseUser || firebaseUser.uid !== user.uid)) {
+        setFirebaseUser(user as any);
+      } else {
+        setIsLoadingAuth(false);
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (firebaseUser) fetchCurrentUser();
+  }, [firebaseUser, fetchCurrentUser]);
 
   useEffect(() => {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
-      firebase.auth().onAuthStateChanged(handleAuthStateChange);
     }
-  }, [handleAuthStateChange]);
-
-  useEffect(() => {
-    if (firebaseUser && isLoadingAuth) {
-      fetchCurrentUser();
-    }
-  }, [firebaseUser, fetchCurrentUser]);
+    firebase.auth().onAuthStateChanged(handleAuthStateChange);
+    console.log('firebase apps length', firebase.apps.length);
+  }, [firebase.apps.length, handleAuthStateChange]);
 
   return (
     <>
@@ -69,7 +73,9 @@ const App = () => {
       <ApplicationProvider {...eva} theme={{ ...eva.light, ...customTheme }}>
         <NavigationContainer>
           {isLoadingAuth ? (
-            <Stack.Screen name="LoadingAuth" component={LoadingAuthScreen} options={{ headerShown: false }} />
+            <Stack.Navigator>
+              <Stack.Screen name="LoadingAuth" component={LoadingAuthScreen} options={{ headerShown: false }} />
+            </Stack.Navigator>
           ) : firebaseUser ? (
             currentUser ? (
               <Drawer.Navigator initialRouteName={ROUTES.HOME} drawerContent={DrawerContent}>
@@ -84,11 +90,14 @@ const App = () => {
                   name="Datos del Estudiante"
                   component={RegisterScreen}
                   options={{ headerTitleAlign: "center" }}
+                  initialParams={{ onCreateUser: fetchCurrentUser }}
                 />
               </Stack.Navigator>
             )
           ) : (
-            <Stack.Screen name="Iniciar Sesión" component={SignInScreen} options={{ headerTitleAlign: "center" }} />
+            <Stack.Navigator>
+              <Stack.Screen name="Iniciar Sesión" component={SignInScreen} options={{ headerTitleAlign: "center" }} />
+            </Stack.Navigator>
           )}
         </NavigationContainer>
       </ApplicationProvider>

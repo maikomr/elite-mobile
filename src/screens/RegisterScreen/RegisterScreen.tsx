@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import firebase from "firebase";
+import "@firebase/firestore";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Text, Layout, Input, Datepicker, Button } from "@ui-kitten/components";
 import { parsePhoneNumber } from "libphonenumber-js";
 import CountryPicker, { Country, CountryCode } from "react-native-country-picker-modal";
-import firebase from "firebase";
+import { StackScreenProps } from "@react-navigation/stack";
 
 interface IErrors {
   fullName?: string[];
@@ -13,7 +15,7 @@ interface IErrors {
   city?: string[];
 }
 
-const RegisterScreen = () => {
+const RegisterScreen: React.FC<StackScreenProps<any>> = ({ route }) => {
   const [fullName, setFullName] = useState("");
   const [birthDate, setBirthDate] = useState<Date>();
   const [phone, setPhone] = useState("");
@@ -26,19 +28,25 @@ const RegisterScreen = () => {
     setCountryCode(country.cca2);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const newErrors: IErrors = {};
+
     if (!fullName.trim().length) {
       newErrors.fullName = ["Este campo es requerido"];
     }
     if (!birthDate) {
       newErrors.birthDate = ["Este campo es requerido"];
     }
-    const phoneNumber = parsePhoneNumber(phone.trim(), countryCode as any);
+    let phoneNumber;
     if (!phone.trim().length) {
       newErrors.phone = ["Este campo es requerido"];
     } else {
-      if (!phoneNumber.isValid()) {
+      try {
+        phoneNumber = parsePhoneNumber(phone.trim(), countryCode as any);
+      } catch (error) {
+        console.log(error);
+      }
+      if (!phoneNumber || !phoneNumber.isValid()) {
         newErrors.phone = ["Formato no válido"];
       }
     }
@@ -52,10 +60,16 @@ const RegisterScreen = () => {
       const user = {
         fullName: fullName.trim(),
         birthDate: firebase.firestore.Timestamp.fromDate(birthDate as Date),
-        phone: phoneNumber.formatInternational(),
+        phone: phoneNumber?.formatInternational(),
         city: city.trim(),
       };
-      console.log(user);
+      try {
+        const firebaseUser = firebase.auth().currentUser;
+        await firebase.firestore().collection('users').doc(firebaseUser?.uid).set(user);
+        route.params.onCreateUser();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
