@@ -29,7 +29,7 @@ const Drawer = createDrawerNavigator();
 const App = () => {
   const [firebaseUser, setFirebaseUser] = useState<firebase.User>();
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
-  const [currentUser, setCurrentUser] = useState<docType>();
+  const [currentUser, setCurrentUser] = useState<docType | null>();
 
   const fetchCurrentUser = useCallback(async () => {
     try {
@@ -46,13 +46,15 @@ const App = () => {
 
   const handleAuthStateChange = useCallback(
     async (user: firebase.User | null) => {
+      setFirebaseUser(user as any);
       if (user && (!firebaseUser || firebaseUser.uid !== user.uid)) {
-        setFirebaseUser(user as any);
+        setIsLoadingAuth(true);
       } else {
+        setCurrentUser(null);
         setIsLoadingAuth(false);
       }
     },
-    []
+    [firebaseUser]
   );
 
   useEffect(() => {
@@ -62,9 +64,8 @@ const App = () => {
   useEffect(() => {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
+      firebase.auth().onAuthStateChanged(handleAuthStateChange);
     }
-    firebase.auth().onAuthStateChanged(handleAuthStateChange);
-    console.log('firebase apps length', firebase.apps.length);
   }, [firebase.apps.length, handleAuthStateChange]);
 
   return (
