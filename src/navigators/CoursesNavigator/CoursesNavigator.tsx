@@ -7,8 +7,6 @@ import ROUTES from '../../constants/routes';
 import CoursesScreen from '../../screens/CoursesScreen';
 import FacultyListScreen from '../../screens/FacultyListScreen';
 import FacultyDetailsScreen from '../../screens/FacultyDetailsScreen';
-import CareerListScreen from '../../screens/CareerListScreen';
-import SubjectListScreen from '../../screens/SubjectListScreen';
 import PreUniversitySubjectScreen from '../../screens/PreUniversitySubjectScreen';
 import EnrollmentOptionsScreen from '../../screens/EnrollmentOptionsScreen';
 import MenuButton from '../../components/MenuButton';
@@ -40,14 +38,6 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS}
       component={FacultyDetailsScreen}
-    />
-    <Stack.Screen
-      name={ROUTES.COURSES.PRE_UNIVERSITY.CAREER_LIST}
-      component={CareerListScreen}
-    />
-    <Stack.Screen
-      name={ROUTES.COURSES.PRE_UNIVERSITY.SUBJECT_LIST}
-      component={SubjectListScreen}
     />
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITY.PRE_UNIVERSITY_SUBJECT_DETAILS}

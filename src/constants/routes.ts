@@ -5,8 +5,6 @@ const ROUTES = {
     PRE_UNIVERSITY: {
       ROOT: 'Pre Universitarios',
       FACULTY_DETAILS: 'FACULTY_DETAILS',
-      CAREER_LIST: 'Carreras',
-      SUBJECT_LIST: 'Materias',
       PRE_UNIVERSITY_SUBJECT_DETAILS: 'PRE_UNIVERSITY_SUBJECT_DETAILS',
       ENROLLMENT_OPTIONS: 'Opciones de Inscripción',
     },
