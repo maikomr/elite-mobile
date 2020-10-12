@@ -1,4 +1,5 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 
@@ -15,6 +16,7 @@ const AboutUsNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
       name={ROUTES.ABOUT_US}
       component={AboutUsScreen}
       options={{
+        headerStyle: styles.header,
         headerLeft: (props) => (
           <MenuButton {...props} onPress={navigation.openDrawer} />
         ),
@@ -23,5 +25,12 @@ const AboutUsNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
     />
   </Stack.Navigator>
 );
+
+const styles = StyleSheet.create({
+  header: {
+    elevation: 0,
+    shadowOpacity: 0,
+  },
+});
 
 export default AboutUsNavigator;
