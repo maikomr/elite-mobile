@@ -14,15 +14,15 @@ const CoursesScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
           title="Pre Universitarios"
           onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.ROOT)}
         />
-        <RootCategoryCard title="Universitarios" onPress={() => {}} />
+        <RootCategoryCard
+          title="Cursos Particulares"
+          onPress={() => navigation.push(ROUTES.COURSES.PRIVATE.ROOT)}
+        />
         <RootCategoryCard
           title="Apoyo Escolar"
           onPress={() => navigation.push(ROUTES.COURSES.ACADEMIC_LEVELING.ROOT)}
         />
-        <RootCategoryCard
-          title="Ajedrez"
-          onPress={() => navigation.push(ROUTES.COURSES.CHESS)}
-        />
+        <RootCategoryCard title="Ajedrez" onPress={() => navigation.push(ROUTES.COURSES.CHESS)} />
       </Layout>
     </ScrollView>
   );

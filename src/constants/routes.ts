@@ -8,8 +8,9 @@ const ROUTES = {
       PRE_UNIVERSITY_SUBJECT_DETAILS: 'PRE_UNIVERSITY_SUBJECT_DETAILS',
       ENROLLMENT_OPTIONS: 'Opciones de Inscripción',
     },
-    UNIVERSITARIOS: {
-      ROOT: 'UNIVERSITARIOS',
+    PRIVATE: {
+      ROOT: 'Cursos Particulares',
+      PRIVATE_COURSE_DETAILS: 'PRIVATE_COURSE_DETAILS'
     },
     ACADEMIC_LEVELING: {
       ROOT: 'Nivelación Académica',
