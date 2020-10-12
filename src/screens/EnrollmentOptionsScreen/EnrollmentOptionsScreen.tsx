@@ -114,10 +114,11 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
 
   const handleWhatsappPress = async () => {
     if (!selectedCourse) return;
+    const subjectsToShow = subjects?.filter((s) => selectedSubjects[s.id]).map((s) => s.data().name);
     const facultyName = route.params.faculty.data().name;
     let msg = `Hola, quisiera inscribirme al curso pre-universitario "${facultyName}" que comienza el ${stringifyDate(
       selectedCourse.startDate.toDate()
-    )}`;
+    )}, con las materias: ${subjectsToShow?.join(", ")}`;
 
     if (allSubjectsSelected && selectedSaleIndex) {
       msg += `, por el periodo de ${selectedCourse.sales[selectedSaleIndex.row].title}`;
@@ -185,7 +186,11 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
                   checked={selectedSubjects[subject.id]}
                   onChange={(checked) => setSelectedSubjects({ ...selectedSubjects, [subject.id]: checked })}
                 >
-                  {(evaProps) => <Text {...evaProps} style={styles.subjectCheckBoxText}>{data.name}</Text>}
+                  {(evaProps) => (
+                    <Text {...evaProps} style={styles.subjectCheckBoxText}>
+                      {data.name}
+                    </Text>
+                  )}
                 </CheckBox>
                 <Popover
                   anchor={() => (
@@ -194,10 +199,10 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
                     </TouchableHighlight>
                   )}
                   visible={visibleSubjectInfo === subject.id}
-                  onBackdropPress={() => setVisibleSubjectInfo('')}
+                  onBackdropPress={() => setVisibleSubjectInfo("")}
                 >
                   <Layout style={styles.subjectInfoContainer}>
-                  <Text>{`Precio mensual: ${selectedCourse.subjects[index].monthlyRate} Bs.`}</Text>
+                    <Text>{`Precio mensual: ${selectedCourse.subjects[index].monthlyRate} Bs.`}</Text>
                     <Text>{selectedCourse.subjects[index].description}</Text>
                   </Layout>
                 </Popover>
@@ -238,9 +243,11 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
         <View style={styles.button}>
           <WhatsappButton onPress={handleWhatsappPress} />
         </View>
-        <View style={styles.button}>
-          <LiveesButton onPress={handleLiveesPress} />
-        </View>
+        {allSubjectsSelected && selectedSaleIndex && (
+          <View style={styles.button}>
+            <LiveesButton onPress={handleLiveesPress} />
+          </View>
+        )}
       </Layout>
     </ScrollView>
   );
@@ -294,7 +301,7 @@ const styles = StyleSheet.create({
   subjectCheckBoxText: {
     marginLeft: 11,
     marginRight: 5,
-    fontSize: 14
+    fontSize: 14,
   },
   salesContainer: {
     flexDirection: "row",
