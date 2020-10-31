@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ScrollView, StyleSheet, Linking, View } from "react-native";
-import { Layout, Text, Spinner, IndexPath, Select, SelectItem, CheckBox, Card, Icon } from "@ui-kitten/components";
+import { Layout, Text, Spinner, IndexPath, Select, SelectItem, CheckBox } from "@ui-kitten/components";
 import { StackScreenProps } from "@react-navigation/stack";
 import stringifyDate from "../../utils/stringifyDate";
 import { companyInfo } from "../../constants/general";
@@ -10,6 +10,7 @@ import { docType } from "../../utils/docType";
 import { PreUniversityCourse } from "../../models/preUniversityCourse";
 import { SelectedSubjectMap } from "../../models/subject";
 import SelectableSubjectList from "../../components/SelectableSubjectList/SelectableSubjectList";
+import CourseSales from "../../components/CourseSales/CourseSales";
 
 const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => {
   const [courses, setCourses] = useState<docType[]>();
@@ -169,33 +170,11 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
           onSelect={(subjectId, checked) => setSelectedSubjects({ ...selectedSubjects, [subjectId]: checked })}
         />
         {allSubjectsSelected && selectedSaleIndex && (
-          <View>
-            <Text style={styles.saleSectionTitle} category="h6">
-              Paquetes de oferta:
-            </Text>
-            <View style={styles.salesContainer}>
-              {selectedCourse.sales.map((sale: any, index: number) => {
-                const isSelected = selectedSaleIndex.row === index;
-                return (
-                  <Card
-                    style={[styles.saleCard, isSelected && styles.selectedSaleCard]}
-                    key={`sale-${index}`}
-                    onPress={() => setSelectedSaleIndex(new IndexPath(index))}
-                  >
-                    <View style={styles.saleCardBody}>
-                      <Text style={styles.saleTitle} category="h6" status="primary">
-                        {sale.title}
-                      </Text>
-                      <Text style={styles.salePrice} category="h6" status="primary">
-                        {sale.price} Bs.
-                      </Text>
-                      {isSelected && <Icon style={styles.icon} fill="#000000" name="checkmark-square-2-outline" />}
-                    </View>
-                  </Card>
-                );
-              })}
-            </View>
-          </View>
+          <CourseSales
+            sales={selectedCourse.sales}
+            selectedSaleIndex={selectedSaleIndex}
+            onSelect={(index: number) => setSelectedSaleIndex(new IndexPath(index))}
+          />
         )}
         <Text style={styles.priceText}>{`Precio del curso: ${coursePrice} Bs.`}</Text>
         <View style={styles.button}>
@@ -236,47 +215,6 @@ const styles = StyleSheet.create({
   subjectsSubtitle: {
     fontWeight: "bold",
     marginLeft: 11,
-  },
-  salesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 20,
-  },
-  saleSectionTitle: {
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  saleCard: {
-    width: 110,
-    height: 80,
-    borderRadius: 10,
-    borderWidth: 0,
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  },
-  selectedSaleCard: {
-    width: 120,
-    height: 100,
-    shadowColor: "#FDDFD3",
-  },
-  saleCardBody: {
-    alignItems: "center",
-  },
-  saleTitle: {
-    fontSize: 14,
-    textAlign: "center",
-    color: "#000000",
-  },
-  salePrice: {
-    fontSize: 14,
-    textAlign: "center",
-  },
-  icon: {
-    width: 20,
-    height: 20,
-    marginTop: 8,
   },
   priceText: {
     fontWeight: "bold",

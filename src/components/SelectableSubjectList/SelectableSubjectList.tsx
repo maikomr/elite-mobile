@@ -7,8 +7,8 @@ import { SelectedSubjectMap } from "../../models/subject";
 interface ISubjectListProps {
   subjects: docType[];
   selectedCourse: any;
-  selectedSubjects?: SelectedSubjectMap;
-  onSelect?: (subjectId: string, checked: boolean) => void;
+  selectedSubjects: SelectedSubjectMap;
+  onSelect: (subjectId: string, checked: boolean) => void;
 }
 
 const SelectableSubjectList = ({ subjects, selectedCourse, selectedSubjects, onSelect }: ISubjectListProps) => {
@@ -22,8 +22,8 @@ const SelectableSubjectList = ({ subjects, selectedCourse, selectedSubjects, onS
             <CheckBox
               key={subject.id}
               style={styles.subjectCheckBox}
-              checked={selectedSubjects && selectedSubjects[subject.id]}
-              onChange={(checked) => onSelect && onSelect(subject.id, checked)}
+              checked={selectedSubjects[subject.id]}
+              onChange={(checked) => onSelect(subject.id, checked)}
             >
               {(evaProps) => (
                 <Text {...evaProps} style={styles.subjectCheckBoxText}>
