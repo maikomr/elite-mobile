@@ -15,7 +15,6 @@ const AboutUsScreen = () => (
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor.
       </Text>
       <View style={styles.strongTextContainer}>
-        <Text style={styles.strong}>Necesitas ayuda?</Text>
         <Text style={styles.strong}>Contactanos!</Text>
       </View>
       <View style={styles.contactContainer}>
