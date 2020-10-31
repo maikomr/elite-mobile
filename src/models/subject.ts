@@ -7,3 +7,5 @@ export type Subject = {
 }
 
 export type SubjectMap = { [id: string]: Subject };
+
+export type SelectedSubjectMap = { [id: string]: boolean };

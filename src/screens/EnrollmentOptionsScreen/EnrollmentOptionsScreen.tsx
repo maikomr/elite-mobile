@@ -1,17 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { ScrollView, StyleSheet, Linking, View, TouchableHighlight } from "react-native";
-import {
-  Layout,
-  Text,
-  Spinner,
-  IndexPath,
-  Select,
-  SelectItem,
-  CheckBox,
-  Card,
-  Icon,
-  Popover,
-} from "@ui-kitten/components";
+import { ScrollView, StyleSheet, Linking, View } from "react-native";
+import { Layout, Text, Spinner, IndexPath, Select, SelectItem, CheckBox, Card, Icon } from "@ui-kitten/components";
 import { StackScreenProps } from "@react-navigation/stack";
 import stringifyDate from "../../utils/stringifyDate";
 import { companyInfo } from "../../constants/general";
@@ -19,16 +8,15 @@ import WhatsappButton from "../../components/WhatsappButton/WhatsappButton";
 import LiveesButton from "../../components/LiveesButton/LiveesButton";
 import { docType } from "../../utils/docType";
 import { PreUniversityCourse } from "../../models/preUniversityCourse";
-
-type SelectedSubjetMap = { [id: string]: boolean };
+import { SelectedSubjectMap } from "../../models/subject";
+import SelectableSubjectList from "../../components/SelectableSubjectList/SelectableSubjectList";
 
 const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => {
   const [courses, setCourses] = useState<docType[]>();
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<IndexPath>(new IndexPath(0));
   const [subjects, setSubjects] = useState<docType[]>();
-  const [selectedSubjects, setSelectedSubjects] = useState<SelectedSubjetMap>({});
+  const [selectedSubjects, setSelectedSubjects] = useState<SelectedSubjectMap>({});
   const [selectedSaleIndex, setSelectedSaleIndex] = useState<IndexPath>();
-  const [visibleSubjectInfo, setVisibleSubjectInfo] = useState<string>();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -57,7 +45,7 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
     if (!subjects) return;
     setSelectedSubjects(
       subjects.reduce(
-        (total: SelectedSubjetMap, current: { id: string }) => ({
+        (total: SelectedSubjectMap, current: { id: string }) => ({
           ...total,
           [current.id]: true,
         }),
@@ -80,7 +68,6 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
       courses
         ? courses
             .map((course: docType) => (course.data() as PreUniversityCourse).startDate.toDate())
-            // .sort((a: Date, b: Date) => +a - +b)
             .map((d: Date) => stringifyDate(d))
         : [],
     [courses]
@@ -90,7 +77,7 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
     if (!subjects) return;
     setSelectedSubjects(
       subjects.reduce(
-        (total: SelectedSubjetMap, current: { id: string }) => ({
+        (total: SelectedSubjectMap, current: { id: string }) => ({
           ...total,
           [current.id]: checked,
         }),
@@ -175,41 +162,12 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
             )}
           </CheckBox>
         </View>
-        <View>
-          {subjects.map((subject: docType, index) => {
-            const data = subject.data();
-            return (
-              <View style={styles.subjectCheckBoxContainer}>
-                <CheckBox
-                  key={subject.id}
-                  style={styles.subjectCheckBox}
-                  checked={selectedSubjects[subject.id]}
-                  onChange={(checked) => setSelectedSubjects({ ...selectedSubjects, [subject.id]: checked })}
-                >
-                  {(evaProps) => (
-                    <Text {...evaProps} style={styles.subjectCheckBoxText}>
-                      {data.name}
-                    </Text>
-                  )}
-                </CheckBox>
-                <Popover
-                  anchor={() => (
-                    <TouchableHighlight onPress={() => setVisibleSubjectInfo(subject.id)} underlayColor="#ffffff">
-                      <Icon style={styles.subjectInfoIcon} fill="#000000" name="info-outline" />
-                    </TouchableHighlight>
-                  )}
-                  visible={visibleSubjectInfo === subject.id}
-                  onBackdropPress={() => setVisibleSubjectInfo("")}
-                >
-                  <Layout style={styles.subjectInfoContainer}>
-                    <Text>{`Precio mensual: ${selectedCourse.subjects[index].monthlyRate} Bs.`}</Text>
-                    <Text>{selectedCourse.subjects[index].description}</Text>
-                  </Layout>
-                </Popover>
-              </View>
-            );
-          })}
-        </View>
+        <SelectableSubjectList
+          subjects={subjects}
+          selectedCourse={selectedCourse}
+          selectedSubjects={selectedSubjects}
+          onSelect={(subjectId, checked) => setSelectedSubjects({ ...selectedSubjects, [subjectId]: checked })}
+        />
         {allSubjectsSelected && selectedSaleIndex && (
           <View>
             <Text style={styles.saleSectionTitle} category="h6">
@@ -278,30 +236,6 @@ const styles = StyleSheet.create({
   subjectsSubtitle: {
     fontWeight: "bold",
     marginLeft: 11,
-  },
-  subjectCheckBoxContainer: {
-    flexDirection: "row",
-  },
-  subjectCheckBox: {
-    marginBottom: 10,
-  },
-  subjectInfoIcon: {
-    width: 20,
-    height: 20,
-  },
-  subjectInfoContainer: {
-    width: 250,
-    padding: 5,
-    borderRadius: 10,
-    borderWidth: 0,
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  },
-  subjectCheckBoxText: {
-    marginLeft: 11,
-    marginRight: 5,
-    fontSize: 14,
   },
   salesContainer: {
     flexDirection: "row",
