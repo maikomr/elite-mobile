@@ -35,11 +35,14 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
   useEffect(() => {
     if (!selectedCourse) return;
     const fetchSubjects = async () => {
-      const snapshot: docType[] = await Promise.all(selectedCourse.subjects.map((subject: any) => subject.ref.get()));
+      const promises = selectedCourse.subjects.map((subject: any) => subject.ref.get());
+      const snapshot: docType[] = await Promise.all(promises);
       setSubjects(snapshot);
     };
     fetchSubjects();
-    if (selectedCourse.sales.length) setSelectedSaleIndex(new IndexPath(selectedCourse.sales.length - 1));
+    if (selectedCourse.sales.length) {
+      setSelectedSaleIndex(new IndexPath(selectedCourse.sales.length - 1));
+    }
   }, [selectedCourse, selectedCourseIndex]);
 
   useEffect(() => {
@@ -64,15 +67,16 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
     return allSelected;
   }, [subjects, selectedSubjects]);
 
-  const startDateOptions = useMemo(
-    () =>
-      courses
-        ? courses
-            .map((course: docType) => (course.data() as PreUniversityCourse).startDate.toDate())
-            .map((d: Date) => stringifyDate(d))
-        : [],
-    [courses]
-  );
+  const startDateOptions = useMemo(() => {
+    if (!courses) {
+      return [];
+    }
+    return courses.map((course: docType) => {
+      const preUniversityCourse: PreUniversityCourse = course.data() as PreUniversityCourse;
+      const startDate = preUniversityCourse.startDate.toDate();
+      return stringifyDate(startDate);
+    });
+  }, [courses]);
 
   const setAllSelected = (checked: boolean) => {
     if (!subjects) return;
@@ -94,7 +98,9 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
     } else {
       let price = 0;
       subjects.forEach((s: docType, index) => {
-        if (selectedSubjects[s.id]) price += selectedCourse.subjects[index].monthlyRate;
+        if (selectedSubjects[s.id]) {
+          price += selectedCourse.subjects[index].monthlyRate;
+        }
       });
       return price;
     }
@@ -154,20 +160,13 @@ const EnrollmentOptionsScreen: React.FC<StackScreenProps<any>> = ({ route }) => 
             <SelectItem key={startDate} title={startDate} />
           ))}
         </Select>
-        <View style={styles.subjectsCheckBox}>
-          <CheckBox checked={allSubjectsSelected} onChange={setAllSelected}>
-            {(evaProps) => (
-              <Text {...evaProps} style={styles.subjectsSubtitle} category="h6">
-                Materias
-              </Text>
-            )}
-          </CheckBox>
-        </View>
         <SelectableSubjectList
           subjects={subjects}
           selectedCourse={selectedCourse}
           selectedSubjects={selectedSubjects}
+          allSubjectsSelected={allSubjectsSelected}
           onSelect={(subjectId, checked) => setSelectedSubjects({ ...selectedSubjects, [subjectId]: checked })}
+          onSelectAll={setAllSelected}
         />
         {allSubjectsSelected && selectedSaleIndex && (
           <CourseSales
@@ -206,15 +205,6 @@ const styles = StyleSheet.create({
   },
   select: {
     marginBottom: 20,
-  },
-  subjectsCheckBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  subjectsSubtitle: {
-    fontWeight: "bold",
-    marginLeft: 11,
   },
   priceText: {
     fontWeight: "bold",
