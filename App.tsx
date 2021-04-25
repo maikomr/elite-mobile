@@ -16,7 +16,7 @@ import CoursesNavigator from "./src/navigators/CoursesNavigator";
 import GalleryNavigator from "./src/navigators/GalleryNavigator";
 import AboutUsNavigator from "./src/navigators/AboutUsNavigator";
 
-import { firebaseConfig } from "./src/firebaseConfig";
+import firebaseConfig from "./src/config/firebaseConfig";
 import { default as customTheme } from "./custom-theme.json";
 import { createStackNavigator } from "@react-navigation/stack";
 import { docType } from "./src/utils/docType";
