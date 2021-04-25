@@ -1,52 +1,27 @@
-import { Button, Icon, Spinner, Text } from "@ui-kitten/components";
-import * as Google from "expo-google-app-auth";
+import { Text } from "@ui-kitten/components";
+import * as WebBrowser from "expo-web-browser";
 import firebase from "firebase";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
+
+import SignInWithGoogleButton from "./SignInWithGoogleButton/SignInWithGoogleButton";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const SignInScreen = () => {
   const [signInError, setSignInError] = useState();
-  const [isLoadingAuth, setIsLoadingAuth] = useState(false);
 
-  const signInWithGoogle = async () => {
+  const handleCredentialRetrieved = (credential: firebase.auth.OAuthCredential) => {
     try {
-      const result = await Google.logInAsync({
-        behavior: "web",
-        androidClientId:
-          "720371133613-j7fugov615naq1iegs3naok75f26e0ul.apps.googleusercontent.com",
-        // iosClientId: YOUR_CLIENT_ID_HERE,
-        scopes: ["profile", "email"],
-      });
-      if (result.type === "success") {
-        const credential = firebase.auth.GoogleAuthProvider.credential(
-          result.idToken,
-          result.accessToken
-        );
-        setIsLoadingAuth(true);
-        firebase.auth().signInWithCredential(credential);
-      }
-    } catch (e) {
-      setSignInError(e.message);
+      firebase.auth().signInWithCredential(credential);
+    } catch (error) {
+      setSignInError(error.message);
     }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Button
-        onPress={signInWithGoogle}
-        appearance="outline"
-        accessoryLeft={(props) =>
-          isLoadingAuth ? (
-            <View {...props} style={styles.indicator}>
-              <Spinner size="small" />
-            </View>
-          ) : (
-            <Icon {...props} name="google-outline" />
-          )
-        }
-      >
-        Iniciar Sesión Google
-      </Button>
+      <SignInWithGoogleButton onCredentialRetrieved={handleCredentialRetrieved} />
       {signInError && <Text>{signInError}</Text>}
     </ScrollView>
   );
@@ -57,10 +32,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  indicator: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  }
 });
 export default SignInScreen;
