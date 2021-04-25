@@ -13,7 +13,7 @@ export interface SignInWithGoogleButtonProps {
 const SignInWithGoogleButton = ({ onCredentialRetrieved }: SignInWithGoogleButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: googleSignInConfig.clientId,
+    clientId: googleSignInConfig.webClientId,
   });
 
   useEffect(() => {

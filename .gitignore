@@ -10,7 +10,8 @@ npm-debug.*
 web-build/
 *.log
 
-src/config/**
+src/config/firebaseConfig.ts
+src/config/googleSignInConfig.ts
 
 # macOS
 .DS_Store
