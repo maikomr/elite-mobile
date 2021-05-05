@@ -9,32 +9,32 @@ import CategoryCard from "../../components/CategoryCard";
 import ROUTES from "../../constants/routes";
 import { docType } from "../../utils/docType";
 
-const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-  const [faculties, setFaculties] = useState<docType[]>();
+const CollegeListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
+  const [collegeList, setCollegeList] = useState<any[]>();
 
   useEffect(() => {
-    const fetchFaculties = async () => {
+    const fetchCollegeList = async () => {
       const snapshot = await firebase.firestore().collection("universities/umss-cochabamba/faculties").get();
-      setFaculties(snapshot.docs);
+      setCollegeList(snapshot.docs);
     };
-    fetchFaculties();
+    fetchCollegeList();
   }, []);
 
-  const renderFaculty: ListRenderItem<docType> = useCallback(({ item: faculty }) => {
-    const data = faculty.data();
+  const renderListItem: ListRenderItem<docType> = useCallback(({ item: college }) => {
+    const data = college.data();
     return (
       <CategoryCard
         name={data.name}
         onPress={() =>
           navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS, {
-            faculty,
+            faculty: college,
           })
         }
       />
     );
   }, []);
 
-  if (!faculties) {
+  if (!collegeList) {
     return (
       <Layout style={styles.loadingStateContainer}>
         <Spinner size="giant" />
@@ -44,7 +44,7 @@ const FacultyListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
   return (
     <Layout style={styles.container} level="2">
-      <FlatList data={faculties} renderItem={renderFaculty} keyExtractor={(faculty) => `faculty-${faculty.id}`} />
+      <FlatList data={collegeList} renderItem={renderListItem} keyExtractor={(college) => `college-${college.id}`} />
     </Layout>
   );
 };
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FacultyListScreen;
+export default CollegeListScreen;

@@ -5,7 +5,7 @@ import { DrawerScreenProps } from "@react-navigation/drawer";
 import ROUTES from "../../constants/routes";
 
 import CoursesScreen from "../../screens/CoursesScreen";
-import FacultyListScreen from "../../screens/FacultyListScreen";
+import CollegeListScreen from "../../screens/CollegeListScreen/CollegeListScreen";
 import FacultyDetailsScreen from "../../screens/FacultyDetailsScreen";
 import PreUniversitySubjectScreen from "../../screens/PreUniversitySubjectScreen";
 import EnrollmentOptionsScreen from "../../screens/EnrollmentOptionsScreen";
@@ -28,7 +28,7 @@ const CoursesNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
         title: "Course",
       }}
     />
-    <Stack.Screen name={ROUTES.COURSES.PRE_UNIVERSITY.ROOT} component={FacultyListScreen} />
+    <Stack.Screen name={ROUTES.COURSES.PRE_UNIVERSITY.ROOT} component={CollegeListScreen} />
     <Stack.Screen name={ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS} component={FacultyDetailsScreen} />
     <Stack.Screen
       name={ROUTES.COURSES.PRE_UNIVERSITY.PRE_UNIVERSITY_SUBJECT_DETAILS}
