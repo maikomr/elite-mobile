@@ -26,7 +26,7 @@ const PrivateCourseListScreen: React.FC<StackScreenProps<any>> = ({ navigation }
       <CategoryCard
         name={data.name}
         onPress={() =>
-          navigation.push(ROUTES.COURSES.PRIVATE.PRIVATE_COURSE_DETAILS, {
+          navigation.push(ROUTES.SUBJECT_COURSE_DETAILS, {
             subject,
           })
         }

@@ -12,17 +12,17 @@ const CoursesScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       <Layout style={styles.container} level="2">
         <RootCategoryCard
           title="Pre Universitarios"
-          onPress={() => navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.ROOT)}
+          onPress={() => navigation.push(ROUTES.PRE_UNIVERSITY_COURSES)}
         />
         <RootCategoryCard
           title="Cursos Particulares"
-          onPress={() => navigation.push(ROUTES.COURSES.PRIVATE.ROOT)}
+          onPress={() => navigation.push(ROUTES.SUBJECT_COURSES)}
         />
         <RootCategoryCard
           title="Apoyo Escolar"
-          onPress={() => navigation.push(ROUTES.COURSES.ACADEMIC_LEVELING.ROOT)}
+          onPress={() => navigation.push(ROUTES.ACADEMIC_LEVELING)}
         />
-        <RootCategoryCard title="Ajedrez" onPress={() => navigation.push(ROUTES.COURSES.CHESS)} />
+        <RootCategoryCard title="Ajedrez" onPress={() => navigation.push(ROUTES.CHESS)} />
       </Layout>
     </ScrollView>
   );

@@ -20,6 +20,7 @@ const AboutUsNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
         headerLeft: (props) => (
           <MenuButton {...props} onPress={navigation.openDrawer} />
         ),
+        title: 'Quienes somos',
         headerTitleAlign: "center"
       }}
     />

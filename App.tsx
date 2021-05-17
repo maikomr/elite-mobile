@@ -81,7 +81,7 @@ const App = () => {
             currentUser ? (
               <Drawer.Navigator initialRouteName={ROUTES.HOME} drawerContent={DrawerContent}>
                 <Drawer.Screen name={ROUTES.HOME} component={HomeNavigator} />
-                <Drawer.Screen name={ROUTES.COURSES.ROOT} component={CoursesNavigator} />
+                <Drawer.Screen name={ROUTES.COURSES} component={CoursesNavigator} />
                 <Drawer.Screen name={ROUTES.GALLERY} component={GalleryNavigator} />
                 <Drawer.Screen name={ROUTES.ABOUT_US} component={AboutUsNavigator} />
               </Drawer.Navigator>

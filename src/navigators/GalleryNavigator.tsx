@@ -18,6 +18,7 @@ const GalleryNavigator: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
         headerLeft: (props) => (
           <MenuButton {...props} onPress={navigation.openDrawer} />
         ),
+        title: 'Galería',
         headerTitleAlign: "center"
       }}
     />

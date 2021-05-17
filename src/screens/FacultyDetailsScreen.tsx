@@ -65,7 +65,7 @@ const FacultyDetailsScreen: React.FC<StackScreenProps<any>> = ({ navigation, rou
         </View>
         <Button
           onPress={() =>
-            navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.ENROLLMENT_OPTIONS, {
+            navigation.push(ROUTES.ENROLLMENT_OPTIONS, {
               faculty: route.params.faculty,
             })
           }

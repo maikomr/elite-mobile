@@ -12,8 +12,6 @@ import {
 } from "@ui-kitten/components";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
-import ROUTES from "../constants/routes";
-
 const DrawerContent: React.FC<DrawerContentComponentProps> = ({
   navigation,
   state,
@@ -41,10 +39,10 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({
         selectedIndex={new IndexPath(state.index)}
         onSelect={(index) => navigation.navigate(state.routeNames[index.row])}
       >
-        <DrawerItem title={ROUTES.HOME} />
-        <DrawerItem title={ROUTES.COURSES.ROOT} />
-        <DrawerItem title={ROUTES.GALLERY} />
-        <DrawerItem title={ROUTES.ABOUT_US} />
+        <DrawerItem title="INICIO" />
+        <DrawerItem title="CURSOS" />
+        <DrawerItem title="GALERIA" />
+        <DrawerItem title="QUIENES SOMOS" />
       </Drawer>
       <Button
         style={styles.logoutButton}

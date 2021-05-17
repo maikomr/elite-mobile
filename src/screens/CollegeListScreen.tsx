@@ -26,7 +26,7 @@ const CollegeListScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       <CategoryCard
         name={data.name}
         onPress={() =>
-          navigation.push(ROUTES.COURSES.PRE_UNIVERSITY.FACULTY_DETAILS, {
+          navigation.push(ROUTES.FACULTY_DETAILS, {
             faculty: college,
           })
         }

@@ -73,7 +73,7 @@ const HomeScreen: React.FC<DrawerScreenProps<any>> = ({ navigation }) => (
       </View>
       <Button
         style={styles.exploreBtn}
-        onPress={() => navigation.navigate(ROUTES.COURSES.ROOT)}
+        onPress={() => navigation.navigate(ROUTES.COURSES)}
         accessoryRight={(style) => (
           <Icon {...style} name="arrow-forward-outline" />
         )}
